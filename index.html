@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>우리의 모바일 청첩장</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <header>
+    <h1>우리의 모바일 청첩장</h1>
+    <p>특별한 날, 함께 해주세요!</p>
+  </header>
+
+  <section>
+    <h2>📋 초대의 글</h2>
+    <p>소중한 분들과 함께 이 날을 축복받고 싶습니다.</p>
+  </section>
+
+  <section>
+    <h2>💬 축하 메시지 남기기</h2>
+    <form method="POST" action="https://api.staticman.net/v2/entry/han77yb/han77yb-wedding/main/comments">
+      <input type="text" name="name" placeholder="이름" required>
+      <textarea name="message" placeholder="축하 메시지" required></textarea>
+      <button type="submit">메시지 남기기</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>🎉 축하 메시지 보기</h2>
+    <ul>
+      {% for comment in site.data.comments %}
+        <li>
+          <strong>{{ comment.name }}</strong>: {{ comment.message }}
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 우리의 모바일 청첩장</p>
+  </footer>
+</body>
+</html>
