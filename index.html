@@ -19,22 +19,8 @@
 
   <section>
     <h2>💬 축하 메시지 남기기</h2>
-    <form method="POST" action="https://api.staticman.net/v2/entry/han77yb/han77yb-wedding/main/comments">
-      <input type="text" name="name" placeholder="이름" required>
-      <textarea name="message" placeholder="축하 메시지" required></textarea>
-      <button type="submit">메시지 남기기</button>
-    </form>
-  </section>
-
-  <section>
-    <h2>🎉 축하 메시지 보기</h2>
-    <ul>
-      {% for comment in site.data.comments %}
-        <li>
-          <strong>{{ comment.name }}</strong>: {{ comment.message }}
-        </li>
-      {% endfor %}
-    </ul>
+    <script defer src="https://cdn.commento.io/js/commento.js"></script>
+    <div id="commento"></div>
   </section>
 
   <footer>
