@@ -4,67 +4,86 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>우리의 모바일 청첩장</title>
-  <link rel="stylesheet" href="assets/style.css">
-  
-  <script defer src="https://cdn.commento.io/js/commento.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
-    /* 댓글 섹션 스타일 */
-    #commento {
-      max-width: 700px;
-      margin: 20px auto;
+    body {
       font-family: 'Arial', sans-serif;
-      border: 1px solid #ddd;
-      padding: 20px;
-      border-radius: 8px;
-      background-color: #f9f9f9;
-    }
-
-    /* 댓글 입력 박스 */
-    #commento textarea {
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      padding: 10px;
-      width: 100%;
-      margin-bottom: 10px;
-    }
-
-    /* 댓글 버튼 */
-    #commento button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 8px 16px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    #commento button:hover {
-      background-color: #45a049;
-    }
-
-    /* 댓글 목록 스타일 */
-    #commento .commento-root .commento-main-thread {
-      margin-top: 20px;
-    }
-
-    #commento .commento-comment {
-      border-bottom: 1px solid #eee;
-      padding: 10px 0;
-    }
-
-    /* 댓글 작성자 이름 */
-    #commento .commento-name {
-      font-weight: bold;
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+      background-color: #fdfdfd;
       color: #333;
     }
-
-    /* 댓글 내용 */
-    #commento .commento-body {
+    header {
+      text-align: center;
+      padding: 20px;
+      background-color: #ffc107;
+      color: #fff;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5em;
+    }
+    header p {
+      font-size: 1.2em;
       margin-top: 5px;
     }
+    section {
+      margin: 20px auto;
+      max-width: 800px;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    section h2 {
+      font-size: 1.8em;
+      margin-bottom: 15px;
+      color: #007BFF;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    input, textarea, button {
+      font-size: 1em;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 100%;
+    }
+    button {
+      background-color: #007BFF;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #output2 {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+    .message {
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f0f8ff;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      padding: 10px 0;
+      background-color: #f1f1f1;
+      color: #777;
+    }
   </style>
-  
 </head>
 <body>
   <header>
@@ -79,11 +98,72 @@
 
   <section>
     <h2>🎉 축하 메시지</h2>
-    <div id="commento"></div>
+    <form onsubmit="submitData(event)">
+      <input type="text" id="name" placeholder="이름을 입력하세요" required>
+      <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
+      <button type="submit">작성</button>
+    </form>
+    <div id="output2">
+      <h3>축하 메시지 목록</h3>
+      <!-- 메시지 출력 영역 -->
+    </div>
   </section>
 
   <footer>
     <p>&copy; 2025 우리의 모바일 청첩장</p>
   </footer>
+
+  <script>
+    async function submitData(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const value = document.getElementById('value').value.trim();
+
+      if (!name || !value) {
+        alert("모든 필드를 입력해주세요.");
+        return;
+      }
+
+      try {
+        await fetch('https://script.google.com/macros/s/AKfycbwSpfYsWwNNroqjPg4N7BYX_WDWVpdeHEObYPj7CNVOKnw76aup-JGqyhPGlsVZEe_1Xg/exec', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, value }),
+          mode: 'no-cors' // CORS 문제를 우회
+        });
+
+        fetchData();
+
+        // 입력 필드 초기화
+        document.getElementById('name').value = '';
+        document.getElementById('value').value = '';
+      } catch (error) {
+        console.error("Error submitting data:", error);
+        alert("데이터 전송 중 오류가 발생했습니다.");
+      }
+    }
+
+    async function fetchData() {
+      try {
+        const response = await fetch('https://script.google.com/macros/s/AKfycbxiIwyOcSR0gcwWAWNvsvS6Ft3gLTIQWZsn1--cANN2kZbejnsi9vZq85sKxuXem9LfgA/exec');
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const data = await response.json();
+
+        const output2 = document.getElementById('output2');
+        output2.innerHTML = '<h3>축하 메시지 목록</h3>';
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'message';
+          div.innerHTML = `<strong>${item.name}</strong>: ${item.value}`;
+          output2.appendChild(div);
+        });
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        document.getElementById('output2').textContent = `Error: ${error.message}`;
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", fetchData);
+  </script>
 </body>
 </html>
