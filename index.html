@@ -169,17 +169,20 @@
 	  font-size: 1em;
     }
     .account-info button {
-	  width: 15%;
+      width: 25%;
       position: absolute;
-      top: 5px;
-      bottom: 5px;
-      right: 5px;
-      border-radius: 5px;
-	  font-size: 1em;
-	  text-align: center;
-	  justify-content: center;
-	  display : flex;
-	  align-items: center;
+      top: 10%;
+      bottom: 10%;
+      right: 3%;
+      border-radius: 10%;
+      font-size: clamp(0.8em, 2vw, 1em); /* 화면 크기에 따라 폰트 크기 조정 */
+      text-align: center;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      white-space: nowrap; /* 텍스트 줄바꿈 방지 */
+      overflow: hidden; /* 텍스트 넘침 숨김 */
+      text-overflow: ellipsis; /* 텍스트 넘침 시 ... 표시 */
     }	
     .copy-button2 {
       position: absolute;
