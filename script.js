@@ -1,211 +1,207 @@
-      // Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
-      document.addEventListener("DOMContentLoaded", () => {
-        const observerOptions = {
-          root: null, // 뷰포트 기준
-          rootMargin: "0px 0px -10% 0px", // 밑에서 10%에 도달했을 때
-          threshold: 0, // 요소의 노출 정도
-        };
+// Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
+document.addEventListener("DOMContentLoaded", () => {
+  const observerOptions = {
+    root: null, // 뷰포트 기준
+    rootMargin: "0px 0px -20% 0px", // 밑에서 20%에 도달했을 때
+    threshold: 0, // 요소의 노출 정도
+  };
 
-        const observerCallback = (entries, observer) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target); // 한 번 실행 후 감시 중단
-            }
-          });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        // 감시할 요소들
-        const targets = document.querySelectorAll(".custom-picture, .custom-text span");
-        targets.forEach((target) => observer.observe(target));
-      });
-
-
-      // Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
-      document.addEventListener("DOMContentLoaded", () => {
-        const observerOptions = {
-          root: null, // 뷰포트 기준
-          rootMargin: "0px 0px -10% 0px", // 밑에서 10%에 도달했을 때
-          threshold: 0, // 요소의 노출 정도
-        };
-
-        const observerCallback = (entries, observer) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("visible");
-              observer.unobserve(entry.target); // 한 번 실행 후 감시 중단
-            }
-          });
-        };
-
-        const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-        // 감시할 요소들
-        const targets = document.querySelectorAll(".custom-picture, .custom-text span");
-        targets.forEach((target) => observer.observe(target));
-      });
-
-
-      const numElements = 200; // Number of falling elements
-      const container = document.getElementById("falling-container");
-
-      for (let i = 0; i < numElements; i++) {
-        const element = document.createElement("div");
-        element.className = "falling";
-
-        const size = Math.random() * 20 + 10; // Random size between 10px and 30px
-        const startX = Math.random() * 100; // Start X position (vw)
-        const offsetX = (Math.random() - 0.5) * 50; // Random X offset for end
-        const startY = Math.random() * -50; // Random Y start position above the screen (-20% to 0%)
-        const duration = Math.random() * 10 + 5; // Duration between 5s to 15s
-        const opacity = Math.random() * 0.2; // Opacity between 0.0 and 0.2
-        const scale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
-        const rotation = Math.random() * 360 + "deg"; // Random initial rotation
-
-        element.style.width = `${size}px`;
-        element.style.height = `${size}px`;
-        element.style.left = `${startX}vw`;
-        element.style.setProperty("--start-x", startX);
-        element.style.setProperty("--offset-x", offsetX);
-        element.style.setProperty("--scale", scale);
-        element.style.setProperty("--rotation", rotation);
-        element.style.setProperty("--opacity", opacity);
-        element.style.setProperty("--start-y", startY);
-        element.style.animationDuration = `${duration}s`;
-        element.style.animationDelay = `${Math.random() * -20}s`;
-
-        container.appendChild(element);
+  const observerCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target); // 한 번 실행 후 감시 중단
       }
+    });
+  };
 
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
 
+  // 감시할 요소들
+  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button");
+  targets.forEach((target) => observer.observe(target));
+});
 
-      function toggleAccordion(button) {
-        const content = button.nextElementSibling;
-        content.classList.toggle("active");
+// Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
+document.addEventListener("DOMContentLoaded", () => {
+  const observerOptions = {
+    root: null, // 뷰포트 기준
+    rootMargin: "0px 0px -10% 0px", // 밑에서 10%에 도달했을 때
+    threshold: 0, // 요소의 노출 정도
+  };
+
+  const observerCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target); // 한 번 실행 후 감시 중단
       }
+    });
+  };
 
-      function copyToClipboard(text) {
-        navigator.clipboard.writeText(text).then(() => {
-          alert("계좌번호가 복사되었습니다!");
-        });
-      }
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-      async function submitData(event) {
-        event.preventDefault();
-        const name = document.getElementById("name").value.trim();
-        const value = document.getElementById("value").value.trim();
+  // 감시할 요소들
+  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button");
+  targets.forEach((target) => observer.observe(target));
+});
 
-        if (!name || !value) {
-          alert("모든 필드를 입력해주세요.");
-          return;
-        }
+const numElements = 200; // Number of falling elements
+const container = document.getElementById("falling-container");
 
-        try {
-          await fetch("https://script.google.com/macros/s/AKfycbwSpfYsWwNNroqjPg4N7BYX_WDWVpdeHEObYPj7CNVOKnw76aup-JGqyhPGlsVZEe_1Xg/exec", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-              name,
-              value
-            }),
-            mode: "no-cors", // CORS 문제를 우회
-          });
+for (let i = 0; i < numElements; i++) {
+  const element = document.createElement("div");
+  element.className = "falling";
 
-          fetchData();
+  const size = Math.random() * 20 + 10; // Random size between 10px and 30px
+  const startX = Math.random() * 100; // Start X position (vw)
+  const offsetX = (Math.random() - 0.5) * 50; // Random X offset for end
+  const startY = Math.random() * -50; // Random Y start position above the screen (-20% to 0%)
+  const duration = Math.random() * 10 + 5; // Duration between 5s to 15s
+  const opacity = Math.random() * 0.2; // Opacity between 0.0 and 0.2
+  const scale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
+  const rotation = Math.random() * 360 + "deg"; // Random initial rotation
 
-          document.getElementById("name").value = "";
-          document.getElementById("value").value = "";
-        } catch (error) {
-          console.error("Error submitting data:", error);
-          alert("데이터 전송 중 오류가 발생했습니다.");
-        }
-      }
+  element.style.width = `${size}px`;
+  element.style.height = `${size}px`;
+  element.style.left = `${startX}vw`;
+  element.style.setProperty("--start-x", startX);
+  element.style.setProperty("--offset-x", offsetX);
+  element.style.setProperty("--scale", scale);
+  element.style.setProperty("--rotation", rotation);
+  element.style.setProperty("--opacity", opacity);
+  element.style.setProperty("--start-y", startY);
+  element.style.animationDuration = `${duration}s`;
+  element.style.animationDelay = `${Math.random() * -20}s`;
 
-      let currentPage = 1; // 현재 페이지
-      const itemsPerPage = 5; // 한 페이지당 표시할 메시지 수
+  container.appendChild(element);
+}
 
-      async function fetchData() {
-        try {
-          const response = await fetch("https://script.google.com/macros/s/AKfycbxiIwyOcSR0gcwWAWNvsvS6Ft3gLTIQWZsn1--cANN2kZbejnsi9vZq85sKxuXem9LfgA/exec");
-          if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-          const data = await response.json();
+function toggleAccordion(button) {
+  const content = button.nextElementSibling;
+  content.classList.toggle("active");
+}
 
-          // 데이터를 역순으로 뒤집기
-          const reversedData = data.reverse();
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text).then(() => {
+    alert("계좌번호가 복사되었습니다!");
+  });
+}
 
-          renderMessages(reversedData); // 초기 렌더링
-          renderPagination(reversedData); // 페이지 버튼 렌더링
-        } catch (error) {
-          console.error("Error fetching data:", error);
-          document.getElementById("output2").textContent = `Error: ${error.message}`;
-        }
-      }
+async function submitData(event) {
+  event.preventDefault();
+  const name = document.getElementById("name").value.trim();
+  const value = document.getElementById("value").value.trim();
 
-      // 메시지 렌더링
-      function renderMessages(data) {
-        const output2 = document.getElementById("output2");
-        output2.innerHTML = "<h3>축하 메시지 목록</h3>";
+  if (!name || !value) {
+    alert("모든 필드를 입력해주세요.");
+    return;
+  }
 
-        // 현재 페이지 데이터 계산
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        const pageData = data.slice(startIndex, endIndex);
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbwSpfYsWwNNroqjPg4N7BYX_WDWVpdeHEObYPj7CNVOKnw76aup-JGqyhPGlsVZEe_1Xg/exec", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name,
+        value,
+      }),
+      mode: "no-cors", // CORS 문제를 우회
+    });
 
-        pageData.forEach((item) => {
-          const div = document.createElement("div");
-          div.className = "message";
-          div.style.textAlign = "left"; // 왼쪽 정렬
-          div.innerHTML = `<strong>${item.name}</strong>: ${item.value}`;
-          output2.appendChild(div);
-        });
+    fetchData();
 
-        renderPagination(data); // 페이지 버튼 유지
-      }
+    document.getElementById("name").value = "";
+    document.getElementById("value").value = "";
+  } catch (error) {
+    console.error("Error submitting data:", error);
+    alert("데이터 전송 중 오류가 발생했습니다.");
+  }
+}
 
-      // 페이징 렌더링
-      function renderPagination(data) {
-        let paginationContainer = document.getElementById("pagination");
+let currentPage = 1; // 현재 페이지
+const itemsPerPage = 5; // 한 페이지당 표시할 메시지 수
 
-        // 페이지 버튼이 이미 있으면 삭제
-        if (paginationContainer) {
-          paginationContainer.remove();
-        }
+async function fetchData() {
+  try {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbxiIwyOcSR0gcwWAWNvsvS6Ft3gLTIQWZsn1--cANN2kZbejnsi9vZq85sKxuXem9LfgA/exec");
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
 
-        // 새로운 페이지 버튼 컨테이너 생성
-        paginationContainer = document.createElement("div");
-        paginationContainer.id = "pagination";
-        paginationContainer.style.textAlign = "center";
-        paginationContainer.style.marginTop = "10px";
+    // 데이터를 역순으로 뒤집기
+    const reversedData = data.reverse();
 
-        const totalPages = Math.ceil(data.length / itemsPerPage);
-        for (let i = 1; i <= totalPages; i++) {
-          const button = document.createElement("button");
-          button.textContent = i;
-          button.style.margin = "0 5px";
-          button.style.padding = "5px 10px";
-          button.style.cursor = "pointer";
+    renderMessages(reversedData); // 초기 렌더링
+    renderPagination(reversedData); // 페이지 버튼 렌더링
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    document.getElementById("output2").textContent = `Error: ${error.message}`;
+  }
+}
 
-          // 현재 페이지 표시
-          if (i === currentPage) {
-            button.style.fontWeight = "bold";
-            button.style.backgroundColor = "#d4edda";
-          }
+// 메시지 렌더링
+function renderMessages(data) {
+  const output2 = document.getElementById("output2");
+  output2.innerHTML = "<h3>축하 메시지 목록</h3>";
 
-          button.onclick = () => {
-            currentPage = i;
-            renderMessages(data);
-          };
+  // 현재 페이지 데이터 계산
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const pageData = data.slice(startIndex, endIndex);
 
-          paginationContainer.appendChild(button);
-        }
+  pageData.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "message";
+    div.style.textAlign = "left"; // 왼쪽 정렬
+    div.innerHTML = `<strong>${item.name}</strong>: ${item.value}`;
+    output2.appendChild(div);
+  });
 
-        // 페이지 버튼을 메시지 영역 아래에 추가
-        const output2 = document.getElementById("output2");
-        output2.appendChild(paginationContainer);
-      }
+  renderPagination(data); // 페이지 버튼 유지
+}
 
-      document.addEventListener("DOMContentLoaded", fetchData);
+// 페이징 렌더링
+function renderPagination(data) {
+  let paginationContainer = document.getElementById("pagination");
+
+  // 페이지 버튼이 이미 있으면 삭제
+  if (paginationContainer) {
+    paginationContainer.remove();
+  }
+
+  // 새로운 페이지 버튼 컨테이너 생성
+  paginationContainer = document.createElement("div");
+  paginationContainer.id = "pagination";
+  paginationContainer.style.textAlign = "center";
+  paginationContainer.style.marginTop = "10px";
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+  for (let i = 1; i <= totalPages; i++) {
+    const button = document.createElement("button");
+    button.textContent = i;
+    button.style.margin = "0 5px";
+    button.style.padding = "5px 10px";
+    button.style.cursor = "pointer";
+
+    // 현재 페이지 표시
+    if (i === currentPage) {
+      button.style.fontWeight = "bold";
+      button.style.backgroundColor = "#d4edda";
+    }
+
+    button.onclick = () => {
+      currentPage = i;
+      renderMessages(data);
+    };
+
+    paginationContainer.appendChild(button);
+  }
+
+  // 페이지 버튼을 메시지 영역 아래에 추가
+  const output2 = document.getElementById("output2");
+  output2.appendChild(paginationContainer);
+}
+
+document.addEventListener("DOMContentLoaded", fetchData);
