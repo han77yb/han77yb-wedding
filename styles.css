@@ -223,7 +223,7 @@
      left: 50%;
      transform: translateX(-50%);
      font-family: "Dancing Script", cursive;
-     font-size: 5rem;
+     font-size: calc(3rem + 1.5vw);
      color: #e5135a;
      text-shadow: 0px 0px 5px white, 0px 0px 10px white;
      opacity: 0;
@@ -250,33 +250,47 @@
 }
  .name-block .name.english {
      font-family: "Great Vibes", cursive;
-     font-size: 1.5rem;
+     font-size: calc(1.0rem + 0.5vw);
      color: black;
      margin-bottom: 5px;
+     text-shadow: 0px 0px 5px white, 0px 0px 10px white;
 }
  .name-block .name.korean {
      font-family: "Noto Serif KR", serif;
-     font-size: 2rem;
+     font-size: calc(1.2rem + 0.7vw);
      color: black;
+     text-shadow: 0px 0px 5px white, 0px 0px 10px white;
 }
  .divider {
      width: 2px;
      height: 50px;
      background-color: black;
+     box-shadow: 0px 0px 5px white, 0px 0px 10px white;
+     margin: 0 auto;
+    /* 센터 정렬을 원할 경우 추가 */
 }
  .date-text {
      position: absolute;
-     bottom: 5%;
+     bottom: 6%;
      left: 50%;
      transform: translateX(-50%);
      font-family: "IBM Plex Sans KR", serif;
      font-weight: 400;
      font-style: normal;
-     font-size: 1.5rem;
+     font-size: calc(1rem + 0.5vw);
      color: #34695d;
      white-space: nowrap;
+    /* 개행을 막기 위해 nowrap 설정 */
+     overflow: hidden;
+    /* 텍스트가 넘칠 경우 숨김 처리 */
+     text-overflow: ellipsis;
+    /* 넘치는 텍스트를 ...으로 표시 */
+     text-align: center;
+    /* 중앙 정렬 */
      opacity: 0;
      animation: fadeInDate 1.5s ease-in-out 2.5s forwards;
+     max-width: 90%;
+    /* 컨테이너 최대 폭 설정 */
 }
  .place-text {
      position: absolute;
@@ -286,11 +300,20 @@
      font-family: "IBM Plex Sans KR", serif;
      font-weight: 400;
      font-style: normal;
-     font-size: 1.5rem;
+     font-size: calc(1rem + 0.5vw);
      color: #34695d;
      white-space: nowrap;
+    /* 개행을 막기 위해 nowrap 설정 */
+     overflow: hidden;
+    /* 텍스트가 넘칠 경우 숨김 처리 */
+     text-overflow: ellipsis;
+    /* 넘치는 텍스트를 ...으로 표시 */
+     text-align: center;
+    /* 중앙 정렬 */
      opacity: 0;
      animation: fadeInDate 1.5s ease-in-out 2.5s forwards;
+     max-width: 90%;
+    /* 컨테이너 최대 폭 설정 */
 }
  @keyframes fadeIn {
      from {
@@ -339,17 +362,17 @@
     }
 }
  .custom-text {
-     line-height: 0.1;
+     line-height: 1.5;
      position: relative;
-     margin: 20px auto;
-     max-width: 900px;
-     padding: 20px;
+     margin: 2px auto;
+     max-width: 90%;
+     padding: 2px;
      text-align: center;
      font-family: "Noto Serif KR", serif;
      font-optical-sizing: auto;
      font-weight: 400;
      font-style: normal;
-     font-size: 1.5rem;
+     font-size: calc(0.8rem + 0.5vw);
      color: #333;
      background-color: white;
 }
@@ -366,7 +389,7 @@
  .custom-picture {
      display: block;
      margin: 0 auto 20px;
-     max-width: 6rem;
+     max-width: calc(3.0rem + 1.5vw);
      height: auto;
      opacity: 0;
      transform: translateY(20px);
