@@ -377,6 +377,7 @@ footer {
   font-size: calc(0.8rem + 0.5vw);
   color: #333;
   background-color: white;
+  z-index: 0;  
 }
 .custom-text span {
   display: block;
@@ -398,6 +399,7 @@ footer {
   font-size: calc(0.8rem + 0.5vw);
   color: #333;
   background-color: white;
+  z-index: 0;
 }
 .custom-textb span {
   display: block;
@@ -417,6 +419,7 @@ footer {
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
+  z-index: 0;  
 }
 .custom-picture.visible {
   opacity: 1;
@@ -482,7 +485,7 @@ section {
 }
 
 .blur {
-  filter: blur(5px);
+  filter: blur(100%);
   pointer-events: none;
 }
 
@@ -538,6 +541,7 @@ section {
 .modal-overlay.active {
   visibility: visible;
   opacity: 1;
+  z-index: 10;
 }
 
 .modal h2 {
