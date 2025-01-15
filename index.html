@@ -33,8 +33,8 @@
 
     <section>
       <div><img class="custom-picture" src="picture/flower.png" /></div>
-      <div class="custom-text"><span>그날 술집에서 싸움이 났지.</span></div>
-      <div class="custom-text"><span>땀과 피가 뒤섞인 난리통에서</span></div>
+      <div class="custom-text" style="margin-bottom: 0px; color: #8378d1;"><span>그날 술집에서 싸움이 났지</span></div>
+      <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0px;"><span>땀과 피가 뒤섞인 난리통에서</span></div>
       <br />
       <div class="custom-text"><span>우린 사랑을 맹세했어.</span></div>
       <div class="custom-text"><span>아우, 진짜 낭만적이지?</span></div>
@@ -65,21 +65,103 @@
     </section>
 
     <section>
-      <h2>💌 연락처</h2>
-      <div class="contacts">
-        <div class="contact-card">
-          <img src="groom.png" alt="신랑" />
-          <h3>신랑 김한영</h3>
-          <a href="tel:010-1234-5678">📞 전화걸기</a>
-          <a href="mailto:groom@example.com">✉️ 이메일 보내기</a>
-        </div>
-        <div class="contact-card">
-          <img src="bride.png" alt="신부" />
-          <h3>신부 한혜빈</h3>
-          <a href="tel:010-8765-4321">📞 전화걸기</a>
-          <a href="mailto:bride@example.com">✉️ 이메일 보내기</a>
+      <div><img class="custom-picture" src="picture/m00.png" style="max-width: calc(30rem + 15vw);" /></div>
+    </section>
+
+    <section>
+      <div class="simple_line"></div>
+
+      <div class="who-section"><span class="highlight">김태일 ‧ 안숙자</span>의 장남 <span class="highlight">김한영</span></div>
+      <div class="who-section"><span class="highlight">한혜빈 ‧ 한혜빈</span>의 장녀 <span class="highlight">한혜빈</span></div>
+      <div class="simple_line"></div>
+
+      <div id="main-content">
+        <button class="contact-button" id="openModalButton">연락처</button>
+      </div>
+
+      <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+          <h2>연락하기</h2>
+          <div class="contact-list">
+            <div class="contact-group">
+              <div class="contact-item">
+                <span class="contact-label">신랑</span>
+                <span class="contact-name">김한영</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel01.png" /></a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label">신랑 아버지</span>
+                <span class="contact-name">김태일</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel01.png" /></a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label">신랑 어머니</span>
+                <span class="contact-name">안숙자</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel01.png" /></a>
+                </div>
+              </div>
+            </div>
+            <hr />
+            <div class="contact-group bride">
+              <div class="contact-item">
+                <span class="contact-label-bride">신부</span>
+                <span class="contact-name">한혜빈</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel02.png" /></a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label-bride">신부 아버지</span>
+                <span class="contact-name">한혜빈</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel02.png" /></a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-label-bride">신부 어머니</span>
+                <span class="contact-name">한혜빈</span>
+                <div class="contact-actions">
+                  <a href="tel:010-1234-5678"><img class="contact-picture" src="picture/tel02.png" /></a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
+      <script>
+        const openModalButton = document.getElementById("openModalButton");
+        const modalOverlay = document.getElementById("modalOverlay");
+        const mainContent = document.getElementById("main-content");
+
+        openModalButton.addEventListener("click", () => {
+          modalOverlay.classList.add("active");
+        });
+
+        modalOverlay.addEventListener("click", (e) => {
+          if (e.target === modalOverlay) {
+            modalOverlay.classList.remove("active");
+          }
+        });
+      </script>
+    </section>
+
+    <section>
+      <div class="custom-textb" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw);"><span>WEDDING DATE</span></div>
+      <div class="custom-textb" style="font-size: calc(1.2rem + 0.7vw);"><span>2025년 6월 14일 토요일 오전 12시</span></div>
+      <div class="simple_line"></div>
+      <div><img class="custom-picture" src="picture/cal.png" style="max-width: calc(30rem + 15vw);" /></div>
+      <div class="simple_line"></div>
+    </section>
+
+    <section>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); font-size: calc(2.5rem + 1.5vw);"><span>Gallery</span></div>
+      사진. 마구 사진.
     </section>
 
     <section>
