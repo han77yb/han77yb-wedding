@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
   // 감시할 요소들
-  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button");
+  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button, form, #output2, .accordion");
   targets.forEach((target) => observer.observe(target));
 });
 
@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
   // 감시할 요소들
-  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button");
+  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button, form, #output2, .accordion");
   targets.forEach((target) => observer.observe(target));
 });
 
@@ -205,3 +205,77 @@ function renderPagination(data) {
 }
 
 document.addEventListener("DOMContentLoaded", fetchData);
+
+// img slide
+let isDragging = false;
+let startX = 0;
+let currentTranslate = 0;
+let prevTranslate = 0;
+let animationID = 0;
+let currentIndex = 0;
+
+const wrapper = document.querySelector(".gallery-wrapper");
+const slides = document.querySelectorAll(".gallery-slide");
+const indicators = document.querySelectorAll(".indicator");
+
+function getSlideWidth() {
+  return document.querySelector(".gallery-slide").offsetWidth;
+}
+
+slides.forEach((slide, index) => {
+  slide.addEventListener("touchstart", touchStart(index));
+  slide.addEventListener("touchend", touchEnd);
+  slide.addEventListener("touchmove", touchMove);
+});
+
+function touchStart(index) {
+  return function (event) {
+    currentIndex = index;
+    startX = event.touches[0].clientX;
+    isDragging = true;
+    animationID = requestAnimationFrame(animation);
+  };
+}
+
+function touchEnd() {
+  isDragging = false;
+  cancelAnimationFrame(animationID);
+
+  const slideWidth = getSlideWidth();
+  const movedBy = currentTranslate - prevTranslate;
+  if (movedBy < -slideWidth / 4 && currentIndex < slides.length - 1) currentIndex += 1;
+  if (movedBy > slideWidth / 4 && currentIndex > 0) currentIndex -= 1;
+
+  setPositionByIndex();
+  updateIndicators();
+}
+
+function touchMove(event) {
+  if (isDragging) {
+    const currentPosition = event.touches[0].clientX;
+    currentTranslate = prevTranslate + currentPosition - startX;
+  }
+}
+
+function setPositionByIndex() {
+  const slideWidth = getSlideWidth();
+  currentTranslate = currentIndex * -slideWidth;
+  prevTranslate = currentTranslate;
+  wrapper.style.transform = `translateX(${currentTranslate}px)`;
+}
+
+function updateIndicators() {
+  indicators.forEach((indicator, index) => {
+    indicator.classList.toggle("active", index === currentIndex);
+  });
+}
+
+function animation() {
+  wrapper.style.transform = `translateX(${currentTranslate}px)`;
+  if (isDragging) requestAnimationFrame(animation);
+}
+
+window.addEventListener("load", () => {
+  setPositionByIndex();
+  updateIndicators();
+});
