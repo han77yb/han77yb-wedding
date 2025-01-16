@@ -32,7 +32,7 @@
     </div>
 
     <section>
-      <div><img class="custom-picture" src="picture/flower.png" /></div>
+      <div><img class="custom-picture" src="picture/flower.png" style="max-width: calc(3rem + 1.5vw);" /></div>
       <div class="custom-text" style="margin-bottom: 0px; color: #8378d1;"><span>그날 술집에서 싸움이 났지</span></div>
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0px;"><span>땀과 피가 뒤섞인 난리통에서</span></div>
       <br />
@@ -43,7 +43,7 @@
     </section>
 
     <section>
-      <div><img class="custom-picture" src="picture/flower2.png" /></div>
+      <div><img class="custom-picture" src="picture/flower2.png" style="max-width: calc(3rem + 1.5vw);" /></div>
       <div class="custom-text" style="margin-bottom: 0px; color: #cb8c8c;"><span>Bless our journey together</span></div>
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0px;"><span>저희의 약속을 축복해 주세요</span></div>
       <br />
@@ -65,7 +65,7 @@
     </section>
 
     <section>
-      <div><img class="custom-picture" src="picture/m00.png" style="max-width: calc(30rem + 15vw);" /></div>
+      <div><img class="custom-picture" src="picture/m00.png" /></div>
     </section>
 
     <section>
@@ -153,19 +153,36 @@
 
     <section>
       <div class="custom-textb" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw);"><span>WEDDING DATE</span></div>
-      <div class="custom-textb" style="font-size: calc(1.2rem + 0.7vw);"><span>2025년 6월 14일 토요일 오전 12시</span></div>
+      <div class="custom-textb" style="font-size: calc(1.1rem + 0.6vw);"><span>2025년 6월 14일 토요일 오전 12시</span></div>
       <div class="simple_line"></div>
-      <div><img class="custom-picture" src="picture/cal.png" style="max-width: calc(30rem + 15vw);" /></div>
+      <div><img class="custom-picture" src="picture/cal.png" /></div>
       <div class="simple_line"></div>
     </section>
 
     <section>
       <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); font-size: calc(2.5rem + 1.5vw);"><span>Gallery</span></div>
-      사진. 마구 사진.
+      <div class="gallery-container">
+        <div class="gallery-wrapper">
+          <div class="gallery-slide">
+            <img class="custom-picture visible" src="picture/leafg.png" alt="Photo 1" style="transition: opacity 0s ease;" />
+          </div>
+          <div class="gallery-slide">
+            <img class="custom-picture" src="picture/flower.png" alt="Photo 2" style="transition: opacity 0s ease;" />
+          </div>
+          <div class="gallery-slide">
+            <img class="custom-picture" src="picture/flower2.png" alt="Photo 3" style="transition: opacity 0s ease;" />
+          </div>
+        </div>
+        <div class="indicator-container">
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+        </div>
+      </div>
     </section>
 
     <section>
-      <h2>🎉 축하 메시지</h2>
+      <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.2rem + 0.7vw); font-family: Arial, sans-serif;"><span>🎉 축하 메시지</span></div>
       <form onsubmit="submitData(event)">
         <input type="text" id="name" placeholder="이름을 입력하세요" required />
         <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
@@ -177,7 +194,8 @@
     </section>
 
     <section>
-      <h2>💖 마음 전하실 곳</h2>
+      <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.2rem + 0.7vw); font-family: Arial, sans-serif;"><span>💖 마음 전하실 곳</span></div>
+
       <div class="accordion">
         <button onclick="toggleAccordion(this)">신랑측 계좌번호 확인하기</button>
         <div class="accordion-content">
