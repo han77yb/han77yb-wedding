@@ -94,11 +94,21 @@ form button {
 form button:hover {
   background-color: #5a8563;
 }
-#output2 {
+
+form, #output2 {
   margin-top: 20px;
   padding-top: 10px;
   border-top: 1px solid #ddd;
+	
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
 }
+form.visible, #output2.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .message {
   margin-bottom: 15px;
   padding: 10px;
@@ -109,6 +119,9 @@ form button:hover {
 /* 축의금 섹션 */
 .accordion {
   margin: 20px 0;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
 }
 .accordion button {
   width: 100%;
@@ -134,6 +147,10 @@ form button:hover {
 }
 .accordion-content.active {
   display: block;
+}
+.accordion.visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 /* 계좌번호 및 복사 버튼 스타일 */
 .account-item {
@@ -377,7 +394,7 @@ footer {
   font-size: calc(0.8rem + 0.5vw);
   color: #333;
   background-color: white;
-  z-index: 0;  
+  z-index: 0;
 }
 .custom-text span {
   display: block;
@@ -414,12 +431,12 @@ footer {
 .custom-picture {
   display: block;
   margin: 0 auto 20px;
-  max-width: calc(3rem + 1.5vw);
+  max-width: 100%;
   height: auto;
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
-  z-index: 0;  
+  z-index: 0;
 }
 .custom-picture.visible {
   opacity: 1;
@@ -606,4 +623,46 @@ section {
 
 .contact-picture {
   width: 1rem;
+}
+
+.gallery-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.gallery-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.gallery-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+.gallery-slide img {
+  width: 100%;
+  height: auto;
+}
+
+.indicator-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
+  transition: background-color 0.3s ease;
+}
+
+.indicator.active {
+  background-color: black;
 }
