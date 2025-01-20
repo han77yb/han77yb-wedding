@@ -666,3 +666,33 @@ section {
 .indicator.active {
   background-color: black;
 }
+
+
+
+.audio-control {
+  position: fixed;
+  top: 0;
+  left: 0;
+  margin: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #000;
+  border-radius: 50%;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  user-select: none;
+  background-color: #fff;
+  color: #000;
+  text-align: center;
+  line-height: 1;
+  z-index: 1000; /* Ensures it stays on top */
+}
+
+.audio-control:hover {
+  background-color: #000;
+  color: #fff;
+}
