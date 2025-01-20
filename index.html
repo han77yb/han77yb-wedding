@@ -11,6 +11,43 @@
     <script src="script.js" defer></script>
   </head>
   <body>
+  
+    <div class="audio-control" id="audioControl">▶</div>
+    <audio id="bgm" loop>
+      <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg">
+    </audio>
+    <script>
+      const audio = document.getElementById('bgm');
+      const audioControl = document.getElementById('audioControl');
+
+      // Attempt to play audio and detect autoplay capability
+      audio.play().then(() => {
+        // Autoplay allowed, unmute and play
+        audio.muted = false;
+        audioControl.textContent = '⏸';
+      }).catch(() => {
+        // Autoplay blocked, show control for user interaction
+        audio.muted = true;
+        audioControl.textContent = '▶';
+      });
+
+      // Function to toggle audio mute state
+      function toggleAudio() {
+        if (audio.paused || audio.muted) {
+          audio.muted = false;
+          audio.play();
+          audioControl.textContent = '⏸';
+        } else {
+          audio.pause();
+          audioControl.textContent = '▶';
+        }
+      }
+
+      // Add event listener to the audio control
+      audioControl.addEventListener('click', toggleAudio);
+    </script>
+
+  
     <div class="fullscreen-image">
       <img src="picture/pic01.png" alt="청첩장 첫 사진" />
       <div id="falling-container"></div>
@@ -183,14 +220,16 @@
 
     <section>
       <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.2rem + 0.7vw); font-family: Arial, sans-serif;"><span>🎉 축하 메시지</span></div>
+	  <div class="custom-textb"><span> 신랑, 신부에게 축하의 글을 남겨보세요 </span></div>
+	  <div class="custom-textb" style="color:#ced4da; font-size: calc(0.8rem + 0.6vw);"><span> (다른 사람은 볼수 없으며, 신랑 신부만 확인이 가능합니다)</span></div>
       <form onsubmit="submitData(event)">
         <input type="text" id="name" placeholder="이름을 입력하세요" required />
         <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
         <button type="submit">작성</button>
       </form>
-      <div id="output2">
+      <!--div id="output2">
         <h3>축하 메시지 목록</h3>
-      </div>
+      </div-->
     </section>
 
     <section>
