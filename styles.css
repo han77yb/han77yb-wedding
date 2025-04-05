@@ -1,3 +1,11 @@
+html, body {
+  overflow-x: hidden; /* 가로 스크롤 숨기기 */
+  /* 필요하다면 아래 touch-action 도 추가 */
+  touch-action: pan-y; /* 수직 스크롤만 허용 (수평 스크롤 및 핀치 줌 제한) */
+
+  /* 참고: 기존 body 스타일에 이미 margin: 0; 이 있으므로 유지 */
+}
+
 body {
   font-family: "Arial", sans-serif;
   margin: 0;
@@ -749,6 +757,7 @@ section {
 #gallery-slider .gallery-wrapper {
   display: flex;
   transition: transform 0.5s ease;
+  touch-action: pan-x;
 }
 
 #gallery-slider .gallery-slide {
