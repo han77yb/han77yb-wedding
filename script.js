@@ -1,9 +1,11 @@
 // Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
 document.addEventListener("DOMContentLoaded", () => {
+  // --- Intersection Observer (하나로 통합) ---
   const observerOptions = {
     root: null, // 뷰포트 기준
-    rootMargin: "0px 0px -20% 0px", // 밑에서 20%에 도달했을 때
-    threshold: 0, // 요소의 노출 정도
+    // rootMargin: "0px 0px -15% 0px", // 트리거 지점 조정 (예: -15%)
+    rootMargin: "0px 0px -10% 0px", // 또는 기존 -10% 유지
+    threshold: 0, // 0 = 1px이라도 보이면
   };
 
   const observerCallback = (entries, observer) => {
@@ -17,34 +19,68 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const observer = new IntersectionObserver(observerCallback, observerOptions);
 
-  // 감시할 요소들
-  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button, form, #output2, .accordion");
-  targets.forEach((target) => observer.observe(target));
-});
+  // 감시할 모든 대상 통합 (querySelector는 ',' 로 여러 셀렉터 지정 가능)
+  // .custom-picture 셀렉터가 갤러리 이미지도 포함함
+  const targets = document.querySelectorAll(".custom-picture, .custom-picture0, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button, form, #output2, .accordion");
+  targets.forEach((target) => {
+    // 이미 visible 클래스가 없는 요소만 관찰 등록 (선택적 최적화)
+    if (!target.classList.contains("visible")) {
+      observer.observe(target);
+    }
+  });
 
-// Intersection Observer로 화면의 특정 지점에 도달했을 때 애니메이션 실행
-document.addEventListener("DOMContentLoaded", () => {
-  const observerOptions = {
-    root: null, // 뷰포트 기준
-    rootMargin: "0px 0px -10% 0px", // 밑에서 10%에 도달했을 때
-    threshold: 0, // 요소의 노출 정도
+  // --- 이미지 갤러리 모달 로직 ---
+  const imageModalOverlay = document.getElementById("imageModalOverlay");
+  const modalImage = document.getElementById("modalImage");
+  const closeModalButton = imageModalOverlay.querySelector(".close-modal-button"); // 닫기 버튼
+  const galleryThumbnails = document.querySelectorAll(".gallery-thumbnail .custom-picture"); // 갤러리 내 이미지들
+
+  // 모달 열기 함수
+  const openImageModal = (imageSrc) => {
+    modalImage.src = imageSrc; // 모달 이미지 소스 설정
+    imageModalOverlay.classList.add("active"); // 모달 보이기
+    // 모달 열 때 오버레이/닫기 버튼 클릭 리스너 추가
+    imageModalOverlay.addEventListener("click", handleImageOverlayClick);
+    closeModalButton.addEventListener("click", closeImageModal);
   };
 
-  const observerCallback = (entries, observer) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("visible");
-        observer.unobserve(entry.target); // 한 번 실행 후 감시 중단
-      }
+  // 모달 닫기 함수
+  const closeImageModal = () => {
+    imageModalOverlay.classList.remove("active"); // 모달 숨기기
+    modalImage.src = ""; // 이미지 소스 초기화 (선택 사항)
+    // 모달 닫을 때 리스너 제거 (중요: 메모리 누수 방지)
+    imageModalOverlay.removeEventListener("click", handleImageOverlayClick);
+    closeModalButton.removeEventListener("click", closeImageModal);
+  };
+
+  // 오버레이 클릭 처리 함수 (모달 내용 클릭 시 닫힘 방지)
+  const handleImageOverlayClick = (event) => {
+    // 클릭된 요소가 오버레이 자체일 경우에만 닫기
+    // 또는 닫기 버튼일 경우 (closeModalButton 리스너가 이미 처리하므로 여기선 생략 가능)
+    if (event.target === imageModalOverlay) {
+      closeImageModal();
+    }
+  };
+
+  // 각 썸네일 이미지에 클릭 이벤트 리스너 추가
+  galleryThumbnails.forEach((thumbnail) => {
+    thumbnail.addEventListener("click", (event) => {
+      // 기본 동작(있다면) 방지
+      event.preventDefault();
+      // 클릭된 이미지의 src 가져오기
+      const imageSrc = thumbnail.src;
+      // 모달 열기
+      openImageModal(imageSrc);
     });
-  };
+  });
 
-  const observer = new IntersectionObserver(observerCallback, observerOptions);
-
-  // 감시할 요소들
-  const targets = document.querySelectorAll(".custom-picture, .custom-text span, .custom-textb span, .simple_line, .who-section, .contact-button, form, #output2, .accordion");
-  targets.forEach((target) => observer.observe(target));
-});
+  // (선택 사항) 키보드 접근성: Esc 키로 모달 닫기
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && imageModalOverlay.classList.contains("active")) {
+      closeImageModal();
+    }
+  });
+}); // End of DOMContentLoaded
 
 const numElements = 200; // Number of falling elements
 const container = document.getElementById("falling-container");
@@ -89,26 +125,26 @@ function copyToClipboard(text) {
 }
 
 // 모달 요소 가져오기 (스크립트 상단 또는 DOMContentLoaded 내부에 위치)
-const confirmationModalOverlay = document.getElementById('confirmationModalOverlay');
-const confirmationModal = document.getElementById('confirmationModal');
-const confirmationMessage = document.getElementById('confirmationMessage'); // 메시지 내용을 변경할 수 있도록 p 태그도 가져옴
+const confirmationModalOverlay = document.getElementById("confirmationModalOverlay");
+const confirmationModal = document.getElementById("confirmationModal");
+const confirmationMessage = document.getElementById("confirmationMessage"); // 메시지 내용을 변경할 수 있도록 p 태그도 가져옴
 
 // 확인 모달 보여주는 함수
 function showConfirmationModal(message = "메시지가 성공적으로 작성되었습니다!") {
   confirmationMessage.textContent = message; // 메시지 설정
-  confirmationModalOverlay.classList.add('active'); // 모달 보이게
+  confirmationModalOverlay.classList.add("active"); // 모달 보이게
 
   // 오버레이 클릭 시 모달 닫기 이벤트 리스너 추가
   // (주의: 이 함수가 호출될 때마다 리스너가 중복 추가될 수 있으므로, 닫을 때 제거하는 것이 좋음)
-  confirmationModalOverlay.addEventListener('click', handleOverlayClick);
+  confirmationModalOverlay.addEventListener("click", handleOverlayClick);
 }
 
 // 확인 모달 숨기는 함수
 function hideConfirmationModal() {
-  confirmationModalOverlay.classList.remove('active'); // 모달 숨기기
+  confirmationModalOverlay.classList.remove("active"); // 모달 숨기기
 
   // 오버레이 클릭 리스너 제거 (중복 방지 및 메모리 관리)
-  confirmationModalOverlay.removeEventListener('click', handleOverlayClick);
+  confirmationModalOverlay.removeEventListener("click", handleOverlayClick);
 }
 
 // 오버레이 클릭 처리 함수
@@ -118,7 +154,6 @@ function handleOverlayClick(event) {
     hideConfirmationModal();
   }
 }
-
 
 async function submitData(event) {
   event.preventDefault();
@@ -137,7 +172,7 @@ async function submitData(event) {
   // 제출 버튼 비활성화 (중복 제출 방지)
   const submitButton = event.target.querySelector('button[type="submit"]');
   submitButton.disabled = true;
-  submitButton.textContent = '전송 중...'; // 사용자 피드백
+  submitButton.textContent = "전송 중..."; // 사용자 피드백
 
   try {
     // fetch 요청 보내기 (no-cors 모드는 실제 성공 여부를 알 수 없음에 유의)
@@ -165,19 +200,17 @@ async function submitData(event) {
 
     // (선택사항) 몇 초 후에 자동으로 모달 닫기
     // setTimeout(hideConfirmationModal, 3000); // 3초 후에 자동으로 닫기
-
   } catch (error) {
     console.error("Error submitting data:", error);
     // 에러 메시지 모달 띄우기 또는 alert 사용
     showConfirmationModal("데이터 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
     // alert("데이터 전송 중 오류가 발생했습니다.");
   } finally {
-      // 제출 버튼 다시 활성화
-      submitButton.disabled = false;
-      submitButton.textContent = '작성';
+    // 제출 버튼 다시 활성화
+    submitButton.disabled = false;
+    submitButton.textContent = "작성";
   }
 }
-
 
 let currentPage = 1; // 현재 페이지
 const itemsPerPage = 5; // 한 페이지당 표시할 메시지 수

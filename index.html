@@ -11,19 +11,23 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </head>
   <body>
-<!-- 오디오 컨트롤 위젯 컨테이너 (화면 고정용) -->
-<div id="audio-widget-container">
-    <div class="audio-text-info"> <!-- 텍스트 정보 그룹핑 (선택 사항이지만 구조적으로 좋음) -->
-        <span class="audio-label">BGM 재생</span> <!-- 상태 안내 문구 -->
-        <span class="song-title">Part of Life by Infraction</span> <!-- 곡 정보 -->
+    <!-- 오디오 컨트롤 위젯 컨테이너 (화면 고정용) -->
+    <div id="audio-widget-container">
+      <div class="audio-text-info">
+        <!-- 텍스트 정보 그룹핑 (선택 사항이지만 구조적으로 좋음) -->
+        <span class="audio-label">BGM 재생</span>
+        <!-- 상태 안내 문구 -->
+        <span class="song-title">Part of Life by Infraction</span>
+        <!-- 곡 정보 -->
+      </div>
+      <div class="audio-control" id="audioControl">▶️</div>
+      <!-- 재생/일시정지 버튼 (아이콘 사용) -->
     </div>
-    <div class="audio-control" id="audioControl">▶️</div> <!-- 재생/일시정지 버튼 (아이콘 사용) -->
-</div>
 
-<!-- 오디오 요소는 그대로 둡니다 -->
-<audio id="bgm" loop playsinline>
-  <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg" />
-</audio>
+    <!-- 오디오 요소는 그대로 둡니다 -->
+    <audio id="bgm" loop playsinline>
+      <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg" />
+    </audio>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -39,19 +43,18 @@
           // 오디오 컨텍스트 상태 확인 (주로 Safari/iOS에서 첫 인터랙션 시 필요할 수 있음)
           // 안전하게 처리하기 위해 오디오 컨텍스트를 resume 시도할 수 있습니다.
           // (선택 사항이지만, 특정 환경에서 도움이 될 수 있음)
-          if (typeof AudioContext !== 'undefined' || typeof webkitAudioContext !== 'undefined') {
-             const resumeContext = async () => {
-                 // AudioContext는 사용자 상호작용 후 생성/재개되어야 할 수 있음
-                 const AudioContext = window.AudioContext || window.webkitAudioContext;
-                 // 이미 생성된 컨텍스트가 있다면 가져오고, 없다면 새로 만들거나 하지 않음
-                 // 여기서는 간단히 play() 전에 상태만 체크하는 정도로 접근
-                 // 좀 더 강력한 방법은 오디오 요소와 연결된 컨텍스트를 직접 다루는 것
-                 // 하지만 보통은 play() 호출 자체가 컨텍스트를 활성화 시킴
-                 console.log("Attempting to ensure audio context is active.");
-             };
-             resumeContext(); // 비동기지만, play() 호출 전에 실행 시도
+          if (typeof AudioContext !== "undefined" || typeof webkitAudioContext !== "undefined") {
+            const resumeContext = async () => {
+              // AudioContext는 사용자 상호작용 후 생성/재개되어야 할 수 있음
+              const AudioContext = window.AudioContext || window.webkitAudioContext;
+              // 이미 생성된 컨텍스트가 있다면 가져오고, 없다면 새로 만들거나 하지 않음
+              // 여기서는 간단히 play() 전에 상태만 체크하는 정도로 접근
+              // 좀 더 강력한 방법은 오디오 요소와 연결된 컨텍스트를 직접 다루는 것
+              // 하지만 보통은 play() 호출 자체가 컨텍스트를 활성화 시킴
+              console.log("Attempting to ensure audio context is active.");
+            };
+            resumeContext(); // 비동기지만, play() 호출 전에 실행 시도
           }
-
 
           // 오디오 재생/일시정지 토글
           if (audio.paused) {
@@ -61,17 +64,19 @@
             const playPromise = audio.play();
 
             if (playPromise !== undefined) {
-              playPromise.then(() => {
-                // 재생 성공
-                audioControl.textContent = "⏸";
-                console.log("BGM 재생 시작");
-              }).catch(error => {
-                // 재생 실패 (예: 사용자가 권한을 부여하지 않았거나, 다른 문제 발생)
-                console.error("BGM 재생 실패:", error);
-                // 사용자에게 피드백을 줄 수 있음 (예: alert)
-                // alert("오디오를 재생할 수 없습니다. 브라우저 설정을 확인해주세요.");
-                audioControl.textContent = "▶"; // 실패 시 버튼 상태 복원
-              });
+              playPromise
+                .then(() => {
+                  // 재생 성공
+                  audioControl.textContent = "⏸";
+                  console.log("BGM 재생 시작");
+                })
+                .catch((error) => {
+                  // 재생 실패 (예: 사용자가 권한을 부여하지 않았거나, 다른 문제 발생)
+                  console.error("BGM 재생 실패:", error);
+                  // 사용자에게 피드백을 줄 수 있음 (예: alert)
+                  // alert("오디오를 재생할 수 없습니다. 브라우저 설정을 확인해주세요.");
+                  audioControl.textContent = "▶"; // 실패 시 버튼 상태 복원
+                });
             }
           } else {
             // 오디오가 재생 중일 때: 일시정지
@@ -82,25 +87,24 @@
         });
 
         // (선택 사항) 오디오가 다른 이유로 멈췄을 때 버튼 업데이트 (예: ended 이벤트)
-        audio.addEventListener('pause', () => {
-            // pause() 메서드 호출 외에 다른 이유로 멈췄을 경우 (예: 오디오 로드 문제 등)
-            // 명시적 pause 호출 외의 상황과 구분하려면 추가적인 상태 플래그가 필요할 수 있음
-            if (!audio.ended) { // ended 이벤트가 아니라면
-                 // audioControl.textContent = "▶"; // 필요에 따라 추가
-            }
+        audio.addEventListener("pause", () => {
+          // pause() 메서드 호출 외에 다른 이유로 멈췄을 경우 (예: 오디오 로드 문제 등)
+          // 명시적 pause 호출 외의 상황과 구분하려면 추가적인 상태 플래그가 필요할 수 있음
+          if (!audio.ended) {
+            // ended 이벤트가 아니라면
+            // audioControl.textContent = "▶"; // 필요에 따라 추가
+          }
         });
 
-        audio.addEventListener('ended', () => {
-             // loop 속성이 있더라도 ended 이벤트는 발생할 수 있음 (loop 직전에 잠깐)
-             // loop가 잘 동작하면 사용자는 못 느낄 수 있음
-             // loop가 없다면 여기서 버튼을 ▶ 로 바꿔야 함
-             if (!audio.loop) {
-                audioControl.textContent = "▶";
-             }
-             console.log("BGM 종료됨 (looping...)");
+        audio.addEventListener("ended", () => {
+          // loop 속성이 있더라도 ended 이벤트는 발생할 수 있음 (loop 직전에 잠깐)
+          // loop가 잘 동작하면 사용자는 못 느낄 수 있음
+          // loop가 없다면 여기서 버튼을 ▶ 로 바꿔야 함
+          if (!audio.loop) {
+            audioControl.textContent = "▶";
+          }
+          console.log("BGM 종료됨 (looping...)");
         });
-
-
       });
     </script>
 
@@ -123,7 +127,7 @@
       <div class="place-text" style="font-weight: 700;">63빌딩 58F 터치더스카이 비너스룸</div>
     </div>
     <section>
-      <div><img class="custom-picture" src="picture/flower.png" style="max-width: calc(3rem + 1.5vw);" /></div>
+      <div><img class="custom-picture0" src="picture/flower.png" style="max-width: calc(3rem + 1.5vw);" /></div>
       <div class="custom-text" style="margin-bottom: 0; color: #8378d1;"><span>To me, you are perfect</span></div>
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0;"><span>내게 당신은 완벽한 사람이에요</span></div>
       <br />
@@ -135,7 +139,7 @@
       <div class="custom-text"><span>내일은 더 아름다워질 것입니다</span></div>
     </section>
     <section>
-      <div><img class="custom-picture" src="picture/flower2.png" style="max-width: calc(3rem + 1.5vw);" /></div>
+      <div><img class="custom-picture0" src="picture/flower2.png" style="max-width: calc(3rem + 1.5vw);" /></div>
       <div class="custom-text" style="margin-bottom: 0px; color: #cb8c8c;"><span>Bless our journey together</span></div>
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0px;"><span>저희의 약속을 축복해 주세요</span></div>
       <br />
@@ -154,10 +158,31 @@
       <br />
       <div class="custom-text"><span>서로를 아끼며 행복하게</span></div>
       <div class="custom-text"><span>살아가겠습니다.</span></div>
+      <div class="image-gallery-container">
+        <!-- 각 이미지를 감싸는 div 또는 figure 사용 -->
+        <div class="gallery-thumbnail">
+          <!-- custom-picture 클래스 유지, 클릭 가능하게 -->
+          <img class="custom-picture" src="picture/m01.png" alt="갤러리 이미지 1" />
+        </div>
+        <div class="gallery-thumbnail">
+          <img class="custom-picture" src="picture/m02.png" alt="갤러리 이미지 2" />
+        </div>
+        <div class="gallery-thumbnail">
+          <img class="custom-picture" src="picture/m03.png" alt="갤러리 이미지 3" />
+        </div>
+      </div>
+      <!-- 이미지 표시용 모달 -->
+      <div class="modal-overlay" id="imageModalOverlay">
+        <!-- 모달 내용 클릭 시 닫히지 않도록 이벤트 전파 방지 필요 시 추가 -->
+        <div class="modal image-modal-content" id="imageModal">
+          <!-- 확대된 이미지를 표시할 img 태그 -->
+          <img id="modalImage" src="" alt="확대된 이미지" />
+          <!-- 닫기 버튼 (선택 사항이지만 접근성에 좋음) -->
+          <button class="close-modal-button" aria-label="닫기">×</button>
+        </div>
+      </div>
     </section>
-    <section>
-      <div><img class="custom-picture" src="picture/m00.png" /></div>
-    </section>
+
     <section>
       <div class="simple_line"></div>
       <div class="who-section"><span class="highlight">김태일 ‧ 안숙자</span>의 장남 <span class="highlight">김한영</span></div>
@@ -230,11 +255,11 @@
         const openModalButton = document.getElementById("openModalButton");
         const modalOverlay = document.getElementById("modalOverlay");
         const mainContent = document.getElementById("main-content");
-        
+
         openModalButton.addEventListener("click", () => {
           modalOverlay.classList.add("active");
         });
-        
+
         modalOverlay.addEventListener("click", (e) => {
           if (e.target === modalOverlay) {
             modalOverlay.classList.remove("active");
@@ -243,12 +268,12 @@
       </script>
     </section>
     <section>
-      <div class="custom-textb" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); "><span>WEDDING DATE</span></div>
+      <div class="custom-textb" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); font-weight: 700;"><span>WEDDING DATE</span></div>
       <div class="custom-textb" style="font-size: calc(0.7rem + 0.4vw); font-weight: 700;"><span>작은 결혼식으로 준비되어, 초대 인원이 한정되어 있습니다.</span></div>
       <div class="custom-textb" style="font-size: calc(0.7rem + 0.4vw); font-weight: 700;"><span>너른 마음으로 양해 부탁드립니다.</span></div>
       <div class="custom-textb" style="font-size: calc(1.1rem + 0.6vw);"><span>2025년 6월 14일 토요일 12시</span></div>
       <div class="simple_line"></div>
-      <div><img class="custom-picture" src="picture/cal.png" /></div>
+      <div><img class="custom-picture0" src="picture/cal.png" /></div>
       <div class="simple_line"></div>
     </section>
     <section id="gallery-slider">
@@ -288,15 +313,13 @@
         <button type="submit">작성</button>
       </form>
     </section>
-	
-	
-  <div class="modal-overlay" id="confirmationModalOverlay">
-    <div class="modal" id="confirmationModal">
-      <p id="confirmationMessage" style="margin-top: 10px; margin-bottom: 10px; font-size: 1.1em;">메시지가 성공적으로 작성되었습니다!</p>
-    </div>
-  </div>
 
-	
+    <div class="modal-overlay" id="confirmationModalOverlay">
+      <div class="modal" id="confirmationModal">
+        <p id="confirmationMessage" style="margin-top: 10px; margin-bottom: 10px; font-size: 1.1em;">메시지가 성공적으로 작성되었습니다!</p>
+      </div>
+    </div>
+
     <section>
       <div class="custom-text" style="color: #a7c1ba; font-size: calc(1rem + 0.5vw); font-family: Arial, sans-serif; font-weight: 700;"><span>💝 마음을 전하시고, 따뜻함을 나누는 곳</span></div>
       <div class="accordion">
@@ -315,8 +338,8 @@
               href="https://forms.gle/gfTRF2AJoxXSWkdn8"
               target="_blank"
               style="display: inline-block; padding: 12px 20px; background-color: #6d9b7a; color: white; font-size: 1em; text-decoration: none; border-radius: 8px; transition: background-color 0.3s;"
-              >
-            🎉 답례품 신청하기
+            >
+              🎉 답례품 신청하기
             </a>
           </div>
         </div>
@@ -337,8 +360,8 @@
               href="https://forms.gle/gfTRF2AJoxXSWkdn8"
               target="_blank"
               style="display: inline-block; padding: 12px 20px; background-color: #6d9b7a; color: white; font-size: 1em; text-decoration: none; border-radius: 8px; transition: background-color 0.3s;"
-              >
-            🎉 답례품 신청하기
+            >
+              🎉 답례품 신청하기
             </a>
           </div>
         </div>
@@ -347,7 +370,7 @@
     <script>
       // Kakao SDK 초기화 (받은 JavaScript 키 사용)
       Kakao.init("1fac1894516271fa3219bb9e0c27f72b");
-      
+
       function shareKakao() {
         Kakao.Link.sendDefault({
           objectType: "feed",
@@ -371,7 +394,7 @@
           ],
         });
       }
-      
+
       function copyLink() {
         const url = window.location.href;
         navigator.clipboard.writeText(url).then(
@@ -386,41 +409,43 @@
     </script>
     <script>
       // 슬라이더 동작: PC에서 마우스 휠 이벤트로 슬라이드 전환
-      (function() {
-        const galleryContainer = document.querySelector('#gallery-slider .gallery-container');
-        const slider = document.querySelector('#gallery-slider .gallery-wrapper');
-        const slides = document.querySelectorAll('#gallery-slider .gallery-slide');
+      (function () {
+        const galleryContainer = document.querySelector("#gallery-slider .gallery-container");
+        const slider = document.querySelector("#gallery-slider .gallery-wrapper");
+        const slides = document.querySelectorAll("#gallery-slider .gallery-slide");
         const totalSlides = slides.length;
         let currentIndex = 0;
         let isThrottled = false; // 과도한 휠 이벤트 발생 방지
-      
+
         function updateIndicators() {
-          const indicators = document.querySelectorAll('#gallery-slider .indicator');
+          const indicators = document.querySelectorAll("#gallery-slider .indicator");
           indicators.forEach((indicator, index) => {
-            indicator.classList.toggle('active', index === currentIndex);
+            indicator.classList.toggle("active", index === currentIndex);
           });
         }
-      
-        galleryContainer.addEventListener('wheel', (e) => {
+
+        galleryContainer.addEventListener("wheel", (e) => {
           e.preventDefault(); // 갤러리 내 스크롤 기본 동작 방지
-      
+
           if (isThrottled) return;
           isThrottled = true;
           setTimeout(() => {
             isThrottled = false;
           }, 600); // 애니메이션 시간보다 약간 여유있게 throttle
-      
-          if(e.deltaY > 0) { // 휠 아래: 다음 슬라이드
-            if(currentIndex < totalSlides - 1) {
+
+          if (e.deltaY > 0) {
+            // 휠 아래: 다음 슬라이드
+            if (currentIndex < totalSlides - 1) {
               currentIndex++;
             }
-          } else if(e.deltaY < 0) { // 휠 위: 이전 슬라이드
-            if(currentIndex > 0) {
+          } else if (e.deltaY < 0) {
+            // 휠 위: 이전 슬라이드
+            if (currentIndex > 0) {
               currentIndex--;
             }
           }
-          slider.style.transition = 'transform 0.5s ease';
-          slider.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+          slider.style.transition = "transform 0.5s ease";
+          slider.style.transform = "translateX(-" + currentIndex * 100 + "%)";
           updateIndicators();
         });
       })();

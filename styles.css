@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   overflow-x: hidden; /* 가로 스크롤 숨기기 */
   /* 필요하다면 아래 touch-action 도 추가 */
   touch-action: pan-y; /* 수직 스크롤만 허용 (수평 스크롤 및 핀치 줌 제한) */
@@ -34,7 +35,7 @@ section {
   max-width: 900px;
   padding: 20px;
   background-color: #fff;
-  margin-bottom: 5rem;
+  margin-bottom: 2rem;
   #border-radius: 10px;
   #box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
@@ -85,7 +86,6 @@ form textarea {
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
-  
 }
 form textarea {
   resize: none;
@@ -103,16 +103,18 @@ form button:hover {
   background-color: #5a8563;
 }
 
-form, #output2 {
+form,
+#output2 {
   margin-top: 20px;
   padding-top: 10px;
   border-top: 1px solid #ddd;
-	
+
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
-form.visible, #output2.visible {
+form.visible,
+#output2.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -436,7 +438,7 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
-.custom-picture {
+.custom-picture0 {
   display: block;
   margin: 0 auto 20px;
   max-width: 100%;
@@ -446,10 +448,55 @@ footer {
   transition: opacity 1.5s ease, transform 1.5s ease;
   z-index: 0;
 }
+.custom-picture0.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.custom-picture {
+  display: block; /* block 레벨로 변경 */
+  /* margin: 0 auto 20px; */ /* 갤러리 내에서는 다른 margin 적용 */
+  max-width: 100%; /* 부모 요소 너비에 맞춤 */
+  height: auto;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+  z-index: 0; /* 유지 */
+  cursor: pointer; /* 클릭 가능 표시 */
+  border-radius: 8px; /* 약간의 둥근 모서리 (선택 사항) */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 (선택 사항) */
+}
 .custom-picture.visible {
   opacity: 1;
   transform: translateY(0);
 }
+/* --- 이미지 갤러리 스타일 --- */
+.image-gallery-container {
+  display: flex; /* 가로 배치 */
+  justify-content: space-around; /* 이미지 주변에 공간 배분 */
+  /* justify-content: center; */ /* 중앙 정렬 */
+  /* justify-content: space-between; */ /* 양 끝에 붙이고 사이 공간 균등 배분 */
+  gap: 15px; /* 이미지 사이의 간격 */
+  flex-wrap: wrap; /* 화면 작을 때 줄바꿈 허용 */
+  padding: 10px; /* 컨테이너 내부 여백 */
+  max-width: 900px; /* 섹션과 유사하게 최대 너비 설정 */
+  margin: 0 auto 20px; /* 좌우 자동 마진 및 하단 마진 */
+}
+
+.gallery-thumbnail {
+  flex: 1 1 calc(33.333% - 20px); /* 기본적으로 3개씩, 간격 고려하여 크기 조절 (gap에 따라 조정) */
+  /* flex: 0 0 180px; */ /* 고정 너비 사용 시 */
+  max-width: calc(33.333% - 10px); /* 최대 너비도 제한 (gap 고려) */
+  /* max-width: 200px; */ /* 고정 최대 너비 사용 시 */
+  box-sizing: border-box;
+  /* 내부 이미지에 그림자/테두리 적용 시 여기보다 img에 적용하는게 나을 수 있음 */
+}
+
+/* 갤러리 내 이미지에 대한 추가 스타일 (선택 사항) */
+.gallery-thumbnail .custom-picture {
+  margin-bottom: 0; /* 컨테이너에서 마진 관리하므로 제거 */
+}
+
 section {
   text-align: center;
 }
@@ -567,6 +614,59 @@ section {
   visibility: visible;
   opacity: 1;
   z-index: 10;
+}
+
+/* 이미지 모달 컨텐츠 영역 스타일 (크기 제한 제거 또는 완화) */
+.image-modal-content {
+  background: transparent;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  /* max-width, max-height 제한은 내부 이미지에서 직접 처리 */
+  /* width, height도 auto 또는 제거 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative; /* 닫기 버튼 위치 기준 */
+}
+
+/* 모달 내부 이미지 스타일 수정 (핵심!) */
+#modalImage {
+  display: block;
+  /* 최대 크기를 뷰포트 너비/높이의 70%로 제한 */
+  max-width: 70vw; /* 화면 너비의 70% */
+  max-height: 70vh; /* 화면 높이의 70% */
+  /* 너비/높이는 자동으로 계산되도록 */
+  width: auto;
+  height: auto;
+  /* 이미지 비율 유지 */
+  object-fit: contain;
+  /* 그림자 등 추가 효과 (선택 사항) */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 4px; /* 약간의 둥근 모서리 (선택 사항) */
+}
+
+/* 모달 닫기 버튼 스타일 (위치 조정 가능) */
+.close-modal-button {
+  position: absolute;
+  /* 이미지 오른쪽 위에 위치하도록 조정 */
+  top: -5px; /* 약간 위로 */
+  right: -5px; /* 약간 오른쪽으로 */
+  background: white;
+  color: #333;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1051;
+}
+.close-modal-button:hover {
+  background-color: #f0f0f0;
 }
 
 .modal h2 {
@@ -693,11 +793,11 @@ section {
 
 /* 텍스트 정보 그룹 (선택 사항) */
 .audio-text-info {
-    display: flex;
-    flex-direction: column; /* 텍스트를 세로로 쌓을 경우 */
-    /* 또는 flex-direction: row; 로 가로 배치 유지 */
-    align-items: flex-start; /* 왼쪽 정렬 (세로 쌓기 시) */
-    margin-right: 10px; /* 버튼과의 간격 */
+  display: flex;
+  flex-direction: column; /* 텍스트를 세로로 쌓을 경우 */
+  /* 또는 flex-direction: row; 로 가로 배치 유지 */
+  align-items: flex-start; /* 왼쪽 정렬 (세로 쌓기 시) */
+  margin-right: 10px; /* 버튼과의 간격 */
 }
 
 .audio-label {
@@ -711,7 +811,7 @@ section {
 
 .song-title {
   font-size: 11px; /* 라벨보다 작게 */
-  color: #666;     /* 약간 연한 회색 */
+  color: #666; /* 약간 연한 회색 */
   /* margin-right: 10px; */ /* text-info 그룹 사용 시 제거 또는 조정 */
   /* font-style: italic; */ /* 기울임꼴 (선택 사항) */
   white-space: nowrap; /* 줄바꿈 방지 */
@@ -731,7 +831,7 @@ section {
   height: 35px;
   background: #e0e5ec;
   border-radius: 50%;
-  box-shadow:  5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff; /* 그림자 약간 조정 */
+  box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff; /* 그림자 약간 조정 */
   text-align: center;
   line-height: 35px; /* 아이콘 수직 중앙 정렬 */
   font-size: 16px; /* 아이콘 크기 */
@@ -749,8 +849,8 @@ section {
 
 /* (선택 사항) 재생 상태일 때 시각적 변화 */
 .audio-control.playing {
-   background-color: #c3e8c4; /* 연한 녹색 배경 */
-   box-shadow: inset 3px 3px 6px #a6c4a7, inset -3px -3px 6px #e0ffe1; /* 눌린 듯한 효과 */
+  background-color: #c3e8c4; /* 연한 녹색 배경 */
+  box-shadow: inset 3px 3px 6px #a6c4a7, inset -3px -3px 6px #e0ffe1; /* 눌린 듯한 효과 */
 }
 
 /* 기존 hover 효과는 제거하거나 상태별로 다르게 적용 가능 */
@@ -764,7 +864,7 @@ section {
   background: #fff;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 500px;
 }
@@ -796,10 +896,9 @@ section {
   color: #333;
 }
 .btn-kakao {
-  background-color: #F7E600;
-  color: #3C1E1E;
+  background-color: #f7e600;
+  color: #3c1e1e;
 }
-
 
 /* 슬라이더 영역에 한정된 스타일 */
 #gallery-slider .gallery-container {
