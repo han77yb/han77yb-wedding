@@ -88,38 +88,96 @@ function copyToClipboard(text) {
   });
 }
 
+// 모달 요소 가져오기 (스크립트 상단 또는 DOMContentLoaded 내부에 위치)
+const confirmationModalOverlay = document.getElementById('confirmationModalOverlay');
+const confirmationModal = document.getElementById('confirmationModal');
+const confirmationMessage = document.getElementById('confirmationMessage'); // 메시지 내용을 변경할 수 있도록 p 태그도 가져옴
+
+// 확인 모달 보여주는 함수
+function showConfirmationModal(message = "메시지가 성공적으로 작성되었습니다!") {
+  confirmationMessage.textContent = message; // 메시지 설정
+  confirmationModalOverlay.classList.add('active'); // 모달 보이게
+
+  // 오버레이 클릭 시 모달 닫기 이벤트 리스너 추가
+  // (주의: 이 함수가 호출될 때마다 리스너가 중복 추가될 수 있으므로, 닫을 때 제거하는 것이 좋음)
+  confirmationModalOverlay.addEventListener('click', handleOverlayClick);
+}
+
+// 확인 모달 숨기는 함수
+function hideConfirmationModal() {
+  confirmationModalOverlay.classList.remove('active'); // 모달 숨기기
+
+  // 오버레이 클릭 리스너 제거 (중복 방지 및 메모리 관리)
+  confirmationModalOverlay.removeEventListener('click', handleOverlayClick);
+}
+
+// 오버레이 클릭 처리 함수
+function handleOverlayClick(event) {
+  // 클릭된 요소가 모달 콘텐츠(confirmationModal) 내부가 *아닌* 오버레이 자체일 경우에만 닫기
+  if (event.target === confirmationModalOverlay) {
+    hideConfirmationModal();
+  }
+}
+
+
 async function submitData(event) {
   event.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  const value = document.getElementById("value").value.trim();
+  const nameInput = document.getElementById("name");
+  const valueInput = document.getElementById("value");
+  const name = nameInput.value.trim();
+  const value = valueInput.value.trim();
 
   if (!name || !value) {
+    // 필드 미입력 시 알림 대신 모달을 사용할 수도 있습니다.
+    // 예: showConfirmationModal("이름과 메시지를 모두 입력해주세요.");
     alert("모든 필드를 입력해주세요.");
     return;
   }
 
+  // 제출 버튼 비활성화 (중복 제출 방지)
+  const submitButton = event.target.querySelector('button[type="submit"]');
+  submitButton.disabled = true;
+  submitButton.textContent = '전송 중...'; // 사용자 피드백
+
   try {
+    // fetch 요청 보내기 (no-cors 모드는 실제 성공 여부를 알 수 없음에 유의)
     await fetch("https://script.google.com/macros/s/AKfycbwSpfYsWwNNroqjPg4N7BYX_WDWVpdeHEObYPj7CNVOKnw76aup-JGqyhPGlsVZEe_1Xg/exec", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json", // 실제로는 no-cors 때문에 서버에 전달되지 않을 수 있음
       },
-      body: JSON.stringify({
-        name,
-        value,
-      }),
-      mode: "no-cors", // CORS 문제를 우회
+      body: JSON.stringify({ name, value }),
+      mode: "no-cors", // CORS 문제를 우회하지만, 응답 상태 확인 불가
     });
 
-    fetchData();
+    // 'no-cors' 모드에서는 fetch가 성공적으로 네트워크 요청을 보냈다는 것만 의미.
+    // 실제 서버 처리가 성공했는지는 알 수 없지만, 일단 성공으로 간주하고 진행.
 
-    document.getElementById("name").value = "";
-    document.getElementById("value").value = "";
+    // (선택사항) fetchData() 호출이 있다면 여기에 위치
+    // fetchData(); // 목록을 다시 불러오는 함수가 있다면 호출
+
+    // 입력 필드 초기화
+    nameInput.value = "";
+    valueInput.value = "";
+
+    // 성공 메시지 모달 띄우기
+    showConfirmationModal("메시지가 성공적으로 작성되었습니다!");
+
+    // (선택사항) 몇 초 후에 자동으로 모달 닫기
+    // setTimeout(hideConfirmationModal, 3000); // 3초 후에 자동으로 닫기
+
   } catch (error) {
     console.error("Error submitting data:", error);
-    alert("데이터 전송 중 오류가 발생했습니다.");
+    // 에러 메시지 모달 띄우기 또는 alert 사용
+    showConfirmationModal("데이터 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+    // alert("데이터 전송 중 오류가 발생했습니다.");
+  } finally {
+      // 제출 버튼 다시 활성화
+      submitButton.disabled = false;
+      submitButton.textContent = '작성';
   }
 }
+
 
 let currentPage = 1; // 현재 페이지
 const itemsPerPage = 5; // 한 페이지당 표시할 메시지 수
