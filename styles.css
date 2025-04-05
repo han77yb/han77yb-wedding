@@ -95,16 +95,18 @@ form button:hover {
   background-color: #5a8563;
 }
 
-form, #output2 {
+form,
+#output2 {
   margin-top: 20px;
   padding-top: 10px;
   border-top: 1px solid #ddd;
-	
+
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
-form.visible, #output2.visible {
+form.visible,
+#output2.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -214,7 +216,7 @@ footer {
   padding: 20px;
   background-color: #f0f0f0;
   color: #777;
-  margin-top: 30px;
+  margin-top: 10px;
   border-top: 1px solid #ddd;
 }
 .fullscreen-image {
@@ -290,7 +292,7 @@ footer {
 }
 .date-text {
   position: absolute;
-  bottom: 6%;
+  bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
   font-family: "IBM Plex Sans KR", serif;
@@ -313,7 +315,7 @@ footer {
 }
 .place-text {
   position: absolute;
-  bottom: 3%;
+  bottom: 7%;
   left: 50%;
   transform: translateX(-50%);
   font-family: "IBM Plex Sans KR", serif;
@@ -625,6 +627,10 @@ section {
   width: 1rem;
 }
 
+.contact-picture2 {
+  width: 1.5rem;
+}
+
 .gallery-container {
   position: relative;
   width: 100%;
@@ -667,32 +673,64 @@ section {
   background-color: black;
 }
 
-
-
 .audio-control {
-  position: fixed;
-  top: 0;
-  left: 0;
-  margin: 10px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px solid #000;
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  background: #e0e5ec;
   border-radius: 50%;
-  font-size: 20px;
-  font-weight: bold;
-  cursor: pointer;
-  user-select: none;
-  background-color: #fff;
-  color: #000;
+  box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
   text-align: center;
-  line-height: 1;
-  z-index: 1000; /* Ensures it stays on top */
+  line-height: 35px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.audio-control:active {
+  box-shadow: inset 8px 8px 16px #a3b1c6, inset -8px -8px 16px #ffffff;
+  transform: scale(0.95);
 }
 
 .audio-control:hover {
   background-color: #000;
   color: #fff;
+}
+.share-container {
+  background: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 500px;
+}
+.share-container h2 {
+  margin-bottom: 10px;
+}
+.share-container p {
+  margin-bottom: 20px;
+  color: #555;
+}
+.share-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+.btn {
+  border: none;
+  border-radius: 30px;
+  padding: 12px 24px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+.btn:hover {
+  transform: scale(1.05);
+}
+.btn-copy {
+  background-color: #e0e0e0;
+  color: #333;
+}
+.btn-kakao {
+  background-color: #f7e600;
+  color: #3c1e1e;
 }
