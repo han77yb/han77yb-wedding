@@ -11,13 +11,19 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </head>
   <body>
-    <div class="audio-control" id="audioControl">▶</div>
-    <!-- playsinline 추가 -->
-    <audio id="bgm" loop playsinline>
-      <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg" />
-      <!-- 브라우저가 audio 태그를 지원하지 않을 경우 표시될 메시지 -->
-      오디오 재생을 지원하지 않는 브라우저입니다.
-    </audio>
+<!-- 오디오 컨트롤 위젯 컨테이너 (화면 고정용) -->
+<div id="audio-widget-container">
+    <div class="audio-text-info"> <!-- 텍스트 정보 그룹핑 (선택 사항이지만 구조적으로 좋음) -->
+        <span class="audio-label">BGM 재생</span> <!-- 상태 안내 문구 -->
+        <span class="song-title">Part of Life by Infraction</span> <!-- 곡 정보 -->
+    </div>
+    <div class="audio-control" id="audioControl">▶️</div> <!-- 재생/일시정지 버튼 (아이콘 사용) -->
+</div>
+
+<!-- 오디오 요소는 그대로 둡니다 -->
+<audio id="bgm" loop playsinline>
+  <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg" />
+</audio>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {

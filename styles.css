@@ -678,34 +678,88 @@ section {
 .indicator.active {
   background-color: black;
 }
+#audio-widget-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.85); /* 배경 약간 더 불투명하게 (선택 사항) */
+  padding: 8px 15px; /* 패딩 조정 */
+  border-radius: 25px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
 
+/* 텍스트 정보 그룹 (선택 사항) */
+.audio-text-info {
+    display: flex;
+    flex-direction: column; /* 텍스트를 세로로 쌓을 경우 */
+    /* 또는 flex-direction: row; 로 가로 배치 유지 */
+    align-items: flex-start; /* 왼쪽 정렬 (세로 쌓기 시) */
+    margin-right: 10px; /* 버튼과의 간격 */
+}
 
+.audio-label {
+  /* margin-right: 8px; */ /* text-info 그룹 사용 시 제거 또는 조정 */
+  font-size: 14px;
+  color: #333; /* 색상 약간 진하게 */
+  font-weight: bold;
+  user-select: none;
+  /* line-height: 1; */ /* 세로 쌓기 시 줄간격 조절 */
+}
 
+.song-title {
+  font-size: 11px; /* 라벨보다 작게 */
+  color: #666;     /* 약간 연한 회색 */
+  /* margin-right: 10px; */ /* text-info 그룹 사용 시 제거 또는 조정 */
+  /* font-style: italic; */ /* 기울임꼴 (선택 사항) */
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px; /* 너무 길어지지 않도록 최대 너비 설정 (조절 필요) */
+  user-select: none;
+  /* line-height: 1.2; */ /* 세로 쌓기 시 줄간격 조절 */
+  margin-top: 2px; /* 라벨과의 세로 간격 (세로 쌓기 시) */
+}
+
+/* 기존 .audio-control 스타일 유지 또는 일부 수정 */
 .audio-control {
+  /* 기존 스타일 유지 */
   display: inline-block;
   width: 35px;
   height: 35px;
   background: #e0e5ec;
   border-radius: 50%;
-  box-shadow:  8px 8px 16px #a3b1c6,
-			   -8px -8px 16px #ffffff;
+  box-shadow:  5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff; /* 그림자 약간 조정 */
   text-align: center;
-  line-height: 35px;
-  font-size: 16px;
+  line-height: 35px; /* 아이콘 수직 중앙 정렬 */
+  font-size: 16px; /* 아이콘 크기 */
   cursor: pointer;
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s, color 0.3s;
+  user-select: none; /* 아이콘 선택 방지 */
+  /* position, top, right 등은 부모 컨테이너가 처리하므로 여기서는 제거 */
 }
+
 .audio-control:active {
-  box-shadow: inset 8px 8px 16px #a3b1c6,
-			  inset -8px -8px 16px #ffffff;
+  /* 기존 active 스타일 유지 */
+  box-shadow: inset 5px 5px 10px #a3b1c6, inset -5px -5px 10px #ffffff;
   transform: scale(0.95);
 }
 
-
-.audio-control:hover {
-  background-color: #000;
-  color: #fff;
+/* (선택 사항) 재생 상태일 때 시각적 변화 */
+.audio-control.playing {
+   background-color: #c3e8c4; /* 연한 녹색 배경 */
+   box-shadow: inset 3px 3px 6px #a6c4a7, inset -3px -3px 6px #e0ffe1; /* 눌린 듯한 효과 */
 }
+
+/* 기존 hover 효과는 제거하거나 상태별로 다르게 적용 가능 */
+/*
+.audio-control:hover {
+  background-color: #d1d9e6;
+}
+*/
+
 .share-container {
   background: #fff;
   padding: 30px;
