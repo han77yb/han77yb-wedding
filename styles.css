@@ -811,7 +811,7 @@ section {
 #gallery-slider .gallery-wrapper {
   display: flex;
   transition: transform 0.5s ease;
-  touch-action: pan-x;
+  touch-action: pan-x pan-y;
 }
 
 #gallery-slider .gallery-slide {
