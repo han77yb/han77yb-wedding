@@ -95,18 +95,16 @@ form button:hover {
   background-color: #5a8563;
 }
 
-form,
-#output2 {
+form, #output2 {
   margin-top: 20px;
   padding-top: 10px;
   border-top: 1px solid #ddd;
-
+	
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
-form.visible,
-#output2.visible {
+form.visible, #output2.visible {
   opacity: 1;
   transform: translateY(0);
 }
@@ -673,13 +671,16 @@ section {
   background-color: black;
 }
 
+
+
 .audio-control {
   display: inline-block;
   width: 35px;
   height: 35px;
   background: #e0e5ec;
   border-radius: 50%;
-  box-shadow: 8px 8px 16px #a3b1c6, -8px -8px 16px #ffffff;
+  box-shadow:  8px 8px 16px #a3b1c6,
+			   -8px -8px 16px #ffffff;
   text-align: center;
   line-height: 35px;
   font-size: 16px;
@@ -687,9 +688,11 @@ section {
   transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 .audio-control:active {
-  box-shadow: inset 8px 8px 16px #a3b1c6, inset -8px -8px 16px #ffffff;
+  box-shadow: inset 8px 8px 16px #a3b1c6,
+			  inset -8px -8px 16px #ffffff;
   transform: scale(0.95);
 }
+
 
 .audio-control:hover {
   background-color: #000;
@@ -699,7 +702,7 @@ section {
   background: #fff;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   text-align: center;
   max-width: 500px;
 }
@@ -731,6 +734,52 @@ section {
   color: #333;
 }
 .btn-kakao {
-  background-color: #f7e600;
-  color: #3c1e1e;
+  background-color: #F7E600;
+  color: #3C1E1E;
+}
+
+
+/* 슬라이더 영역에 한정된 스타일 */
+#gallery-slider .gallery-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+#gallery-slider .gallery-wrapper {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+#gallery-slider .gallery-slide {
+  min-width: 100%;
+  box-sizing: border-box;
+}
+
+#gallery-slider .gallery-slide img {
+  width: 100%;
+  height: auto;
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+#gallery-slider .indicator-container {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+#gallery-slider .indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: gray;
+  transition: background-color 0.3s ease;
+}
+
+#gallery-slider .indicator.active {
+  background-color: black;
 }

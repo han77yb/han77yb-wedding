@@ -126,7 +126,7 @@ const itemsPerPage = 5; // 한 페이지당 표시할 메시지 수
 
 async function fetchData() {
   try {
-    const response = await fetch("https://script.google.com/macros/s/AKfycbxiIwyOcSR0gcwWAWNvsvS6Ft3gLTIQWZsn1--cANN2kZbejnsi9vZq85sKxuXem9LfgA/exec");
+    const response = await fetch("");
     if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
     const data = await response.json();
 
