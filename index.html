@@ -170,6 +170,7 @@
         <div class="gallery-thumbnail">
           <img class="custom-picture" src="picture/m03.png" alt="갤러리 이미지 3" />
         </div>
+	    <div class="custom-textb"><span>(우리 사진, 애니메이션 감성으로 담아봤어요.)</span></div>
       </div>
       <!-- 이미지 표시용 모달 -->
       <div class="modal-overlay" id="imageModalOverlay">
@@ -306,7 +307,7 @@
     <section>
       <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.2rem + 0.7vw); font-family: Arial, sans-serif; font-weight: 700;"><span>🎉 축하 메시지</span></div>
       <div class="custom-textb"><span> 신랑, 신부에게 축하의 글을 남겨보세요 </span></div>
-      <div class="custom-textb" style="color: #ced4da; font-size: calc(0.8rem + 0.6vw);"><span> (다른 사람은 볼수 없으며, 신랑 신부만 확인이 가능합니다)</span></div>
+      <div class="custom-textb" style="color: #ced4da; font-size: calc(0.8rem + 0.6vw);"><span> (다른 사람은 볼수 없으며, <br> 신랑 신부만 확인이 가능합니다)</span></div>
       <form onsubmit="submitData(event)">
         <input type="text" id="name" placeholder="이름을 입력하세요" required />
         <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
@@ -470,8 +471,8 @@
           <h2>청첩장 공유하기</h2>
           <p>소중한 분들께 저희의 결혼 소식을 전해주세요.</p>
           <div class="share-buttons">
-            <button class="btn btn-copy" onclick="copyLink()" style="font-size: calc(0.8rem + 0.4vw);" ;>URL 복사하기</button>
-            <button class="btn btn-kakao" onclick="shareKakao()" style="font-size: calc(0.8rem + 0.4vw);" ;>카카오톡 공유하기</button>
+            <button class="btn btn-copy" onclick="copyLink()" style="font-size: calc(0.8rem + 0.4vw);" ;>URL<br>복사하기</button>
+            <button class="btn btn-kakao" onclick="shareKakao()" style="font-size: calc(0.8rem + 0.4vw);" ;>카카오톡<br>공유하기</button>
           </div>
         </div>
       </center>
