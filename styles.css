@@ -8,7 +8,7 @@ body {
 }
 
 body {
-  font-family: "Arial", sans-serif;
+  font-family: "Gothic A1", sans-serif;
   margin: 0;
   padding: 0;
   background-color: #fff;
@@ -285,7 +285,7 @@ footer {
   text-shadow: 0px 0px 5px white, 0px 0px 10px white;
 }
 .name-block .name.korean {
-  font-family: "Noto Serif KR", serif;
+  font-family: "Gothic A1", sans-serif;
   font-size: calc(1.2rem + 0.7vw);
   color: black;
   text-shadow: 0px 0px 5px white, 0px 0px 10px white;
@@ -303,7 +303,7 @@ footer {
   bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
-  font-family: "IBM Plex Sans KR", serif;
+  font-family: "Gothic A1", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: calc(1rem + 0.5vw);
@@ -326,7 +326,7 @@ footer {
   bottom: 7%;
   left: 50%;
   transform: translateX(-50%);
-  font-family: "IBM Plex Sans KR", serif;
+  font-family: "Gothic A1", sans-serif;
   font-weight: 400;
   font-style: normal;
   font-size: calc(1rem + 0.5vw);
@@ -397,7 +397,7 @@ footer {
   max-width: 90%;
   padding: 2px;
   text-align: center;
-  font-family: "Noto Serif KR", serif;
+  font-family: "Gothic A1", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -944,4 +944,103 @@ section {
 
 #gallery-slider .indicator.active {
   background-color: black;
+}
+
+/* ✨ --- Autoplay Overlay Styles --- ✨ */
+#autoplay-overlay {
+  position: fixed; /* 화면 전체에 고정 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* 약간 어두운 반투명 배경 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999; /* 다른 모든 요소 위에 표시 */
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out; /* 부드러운 사라짐 효과 */
+}
+
+#autoplay-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* 숨겨진 상태에서는 클릭 이벤트 받지 않음 */
+}
+
+.overlay-content {
+  text-align: center;
+  color: white;
+  padding: 20px;
+}
+
+.overlay-content p {
+  font-size: 1.2em; /* 폰트 크기 조정 */
+  line-height: 1.6;
+  margin-bottom: 30px; /* 스크롤 표시와의 간격 증가 */
+  font-family: "Gothic A1", sans-serif; /* 기존 폰트 적용 */
+}
+
+/* 👇 삭제: .overlay-content .touch-icon {...} */
+/* 👇 삭제: @keyframes bounce {...} */
+
+/* ✨ 추가: 스크롤 다운 표시 스타일 ✨ */
+.scroll-down-indicator {
+  position: relative; /* 내부 span 위치 기준 (필요시) */
+  width: 24px; /* 인디케이터 전체 너비 */
+  height: 40px; /* 인디케이터 전체 높이 (애니메이션 공간 포함) */
+  margin: 0 auto; /* 수평 중앙 정렬 */
+}
+
+.scroll-down-indicator span {
+  position: absolute; /* 컨테이너 내에서 위치 조정 */
+  left: 50%; /* 수평 중앙 */
+  width: 18px; /* 쉐브론 크기 */
+  height: 18px; /* 쉐브론 크기 */
+  margin-left: -9px; /* 너비의 절반만큼 왼쪽으로 이동하여 중앙 정렬 */
+  border-left: 2px solid white; /* 쉐브론 왼쪽 선 */
+  border-bottom: 2px solid white; /* 쉐브론 아래쪽 선 */
+  transform: rotate(-45deg); /* 45도 회전하여 쉐브론 모양 만들기 */
+  opacity: 0; /* 초기 상태는 투명 */
+  animation: scrollDownPulse 2s infinite; /* 애니메이션 적용 */
+  box-sizing: border-box;
+}
+
+/* 애니메이션 지연 시간 설정 (순차적 표시) */
+.scroll-down-indicator span:nth-of-type(1) {
+  top: -5px; /* 첫 번째 쉐브론 위치 */
+  animation-delay: 0s;
+}
+
+.scroll-down-indicator span:nth-of-type(2) {
+  top: 5px; /* 두 번째 쉐브론 위치 */
+  animation-delay: 0.3s;
+}
+
+.scroll-down-indicator span:nth-of-type(3) {
+  top: 15px; /* 세 번째 쉐브론 위치 */
+  animation-delay: 0.6s;
+}
+
+/* 스크롤 다운 애니메이션 키프레임 */
+@keyframes scrollDownPulse {
+  0% {
+    opacity: 0;
+    transform: rotate(-45deg) translate(0, 0);
+  }
+  50% {
+    opacity: 1; /* 나타남 */
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(-45deg) translate(10px, 10px); /* 약간 아래로 이동하며 사라짐 */
+  }
+}
+
+/* ⚠️ 기존 오디오 컨트롤의 초기 상태를 '재생' 아이콘으로 명확히 설정 */
+/* (JavaScript에서도 설정하지만 CSS로도 명시 가능) */
+#audioControl::before {
+  /* content: "▶️"; */ /* JS에서 직접 텍스트를 바꾸므로 여기선 불필요 */
 }

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta property="og:image" content="https://han77yb.github.io/han77yb-wedding/picture/gal01.png">
+    <meta property="og:image" content="https://han77yb.github.io/han77yb-wedding/picture/gal01.png" />
     <title>한영💖혜빈의 모바일 청첩장</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet" />
@@ -12,6 +12,19 @@
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
   </head>
   <body>
+    <!-- ✨ 오버레이 내부 수정 ✨ -->
+    <div id="autoplay-overlay">
+      <div class="overlay-content">
+        <p>아래로 스크롤하여, 청첩장을 확인해주세요.</p>
+        <!-- 👇 기존 touch-icon span 삭제하고 아래 div 추가 👇 -->
+        <div class="scroll-down-indicator">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </div>
+
     <!-- 오디오 컨트롤 위젯 컨테이너 (화면 고정용) -->
     <div id="audio-widget-container">
       <div class="audio-text-info">
@@ -32,79 +45,106 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {
+        const overlay = document.getElementById("autoplay-overlay");
         const audio = document.getElementById("bgm");
         const audioControl = document.getElementById("audioControl");
+        let interactionDone = false; // 오버레이 인터랙션 완료 플래그
 
-        // 초기 상태 설정: 오디오는 로드되었지만 재생은 사용자가 시작해야 함
-        // audio.load(); // source가 지정되어 있으면 자동으로 로드됨. 명시적으로 호출할 수도 있음.
-        audioControl.textContent = "▶"; // 시작 시 재생 버튼 표시
+        // 초기 오디오 컨트롤 상태 (재생 전)
+        audioControl.textContent = "▶️";
 
-        // 버튼 클릭 이벤트 리스너
-        audioControl.addEventListener("click", () => {
-          // 오디오 컨텍스트 상태 확인 (주로 Safari/iOS에서 첫 인터랙션 시 필요할 수 있음)
-          // 안전하게 처리하기 위해 오디오 컨텍스트를 resume 시도할 수 있습니다.
-          // (선택 사항이지만, 특정 환경에서 도움이 될 수 있음)
-          if (typeof AudioContext !== "undefined" || typeof webkitAudioContext !== "undefined") {
-            const resumeContext = async () => {
-              // AudioContext는 사용자 상호작용 후 생성/재개되어야 할 수 있음
-              const AudioContext = window.AudioContext || window.webkitAudioContext;
-              // 이미 생성된 컨텍스트가 있다면 가져오고, 없다면 새로 만들거나 하지 않음
-              // 여기서는 간단히 play() 전에 상태만 체크하는 정도로 접근
-              // 좀 더 강력한 방법은 오디오 요소와 연결된 컨텍스트를 직접 다루는 것
-              // 하지만 보통은 play() 호출 자체가 컨텍스트를 활성화 시킴
-              console.log("Attempting to ensure audio context is active.");
-            };
-            resumeContext(); // 비동기지만, play() 호출 전에 실행 시도
+        // --- 오버레이 클릭/터치 처리 ---
+        function startMusicAndReveal() {
+          if (interactionDone) return; // 이미 처리되었으면 중복 실행 방지
+          interactionDone = true;
+
+          // 오디오 재생 시도
+          audio.muted = false; // 음소거 해제 (중요)
+          const playPromise = audio.play();
+
+          if (playPromise !== undefined) {
+            playPromise
+              .then(() => {
+                // 재생 성공
+                console.log("BGM 재생 시작 (Overlay Interaction)");
+                audioControl.textContent = "⏸"; // 컨트롤 아이콘 변경
+                overlay.classList.add("hidden"); // 오버레이 숨기기 (CSS transition 적용됨)
+                // 오버레이 완전히 사라진 후 제거 (선택사항)
+                // setTimeout(() => { overlay.style.display = 'none'; }, 500); // transition 시간과 맞춤
+              })
+              .catch((error) => {
+                // 재생 실패 (사용자 클릭 후에는 거의 발생 안 함)
+                console.error("BGM 재생 실패 (Overlay Interaction):", error);
+                audioControl.textContent = "▶️"; // 컨트롤 아이콘 원래대로
+                overlay.classList.add("hidden"); // 음악 재생 실패해도 오버레이는 숨김
+                // setTimeout(() => { overlay.style.display = 'none'; }, 500);
+                // alert("배경 음악 재생에 실패했습니다."); // 사용자 알림 (선택사항)
+              });
+          } else {
+            // play()가 Promise를 반환하지 않는 오래된 브라우저 fallback
+            audioControl.textContent = "⏸";
+            overlay.classList.add("hidden");
+            // setTimeout(() => { overlay.style.display = 'none'; }, 500);
           }
+        }
 
-          // 오디오 재생/일시정지 토글
+        // 오버레이에 이벤트 리스너 추가
+        overlay.addEventListener("click", startMusicAndReveal);
+        overlay.addEventListener("touchstart", startMusicAndReveal); // 모바일 터치 반응성 향상
+
+        // --- 기존 오디오 컨트롤 버튼 로직 (오버레이 사라진 후 동작) ---
+        audioControl.addEventListener("click", () => {
+          if (!interactionDone) return; // 오버레이 인터랙션 전에는 동작 안 함
+
           if (audio.paused) {
-            // 오디오가 일시정지 상태일 때: 재생 시도
-            // 모바일에서는 사용자의 클릭으로 시작된 play()는 성공할 가능성이 높음
-            audio.muted = false; // 혹시 모를 음소거 상태 해제 (중요!)
             const playPromise = audio.play();
-
             if (playPromise !== undefined) {
               playPromise
                 .then(() => {
-                  // 재생 성공
                   audioControl.textContent = "⏸";
-                  console.log("BGM 재생 시작");
                 })
                 .catch((error) => {
-                  // 재생 실패 (예: 사용자가 권한을 부여하지 않았거나, 다른 문제 발생)
-                  console.error("BGM 재생 실패:", error);
-                  // 사용자에게 피드백을 줄 수 있음 (예: alert)
-                  // alert("오디오를 재생할 수 없습니다. 브라우저 설정을 확인해주세요.");
-                  audioControl.textContent = "▶"; // 실패 시 버튼 상태 복원
+                  console.error("BGM 재생 실패 (Control Click):", error);
+                  audioControl.textContent = "▶️";
                 });
             }
           } else {
-            // 오디오가 재생 중일 때: 일시정지
             audio.pause();
-            audioControl.textContent = "▶";
-            console.log("BGM 일시정지");
+            audioControl.textContent = "▶️";
           }
         });
 
-        // (선택 사항) 오디오가 다른 이유로 멈췄을 때 버튼 업데이트 (예: ended 이벤트)
+        // --- 오디오 상태 변경에 따른 컨트롤 아이콘 업데이트 ---
+        audio.addEventListener("play", () => {
+          if (interactionDone) {
+            // 인터랙션 후에만 아이콘 변경
+            audioControl.textContent = "⏸";
+          }
+        });
+
         audio.addEventListener("pause", () => {
-          // pause() 메서드 호출 외에 다른 이유로 멈췄을 경우 (예: 오디오 로드 문제 등)
-          // 명시적 pause 호출 외의 상황과 구분하려면 추가적인 상태 플래그가 필요할 수 있음
-          if (!audio.ended) {
-            // ended 이벤트가 아니라면
-            // audioControl.textContent = "▶"; // 필요에 따라 추가
+          // ended 이벤트 때문이 아니고, 명시적 pause 또는 다른 이유로 멈췄을 때
+          if (!audio.ended && interactionDone) {
+            audioControl.textContent = "▶️";
           }
         });
 
         audio.addEventListener("ended", () => {
-          // loop 속성이 있더라도 ended 이벤트는 발생할 수 있음 (loop 직전에 잠깐)
-          // loop가 잘 동작하면 사용자는 못 느낄 수 있음
-          // loop가 없다면 여기서 버튼을 ▶ 로 바꿔야 함
-          if (!audio.loop) {
-            audioControl.textContent = "▶";
-          }
           console.log("BGM 종료됨 (looping...)");
+          // loop=true면 자동으로 다시 시작되므로 아이콘 변경 필요 없음
+          // loop=false 라면 여기서 아이콘을 ▶️ 로 변경해야 함
+          if (!audio.loop && interactionDone) {
+            audioControl.textContent = "▶️";
+          }
+        });
+
+        // 페이지가 백그라운드로 가거나 할 때 오디오 정지 (선택사항이지만 권장)
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden && !audio.paused && interactionDone) {
+            audio.pause();
+            // audioControl.textContent = "▶️"; // 필요 시 아이콘도 업데이트
+            console.log("Page hidden, BGM paused.");
+          }
         });
       });
     </script>
@@ -124,8 +164,8 @@
           <div class="name korean">김한영</div>
         </div>
       </div>
-      <div class="date-text" style="font-weight: 700;">2025. 06. 14. SAT.</div>
-      <div class="place-text" style="font-weight: 700;">63빌딩 58F 터치더스카이 비너스룸</div>
+      <div class="date-text" style="font-weight: 500;">2025. 06. 14. SAT.</div>
+      <div class="place-text" style="font-weight: 500;">63빌딩 58F 터치더스카이</div>
     </div>
     <section>
       <div><img class="custom-picture0" src="picture/flower.png" style="max-width: calc(3rem + 1.5vw);" /></div>
@@ -147,15 +187,11 @@
       <div class="custom-text"><span>저희 두 사람이 사랑과 신뢰로</span></div>
       <div class="custom-text"><span>새로운 여정을 시작합니다.</span></div>
       <br />
-      <div class="custom-text"><span>이번 결혼식은 저희의 뜻에 따라</span></div>
-      <div class="custom-text"><span>작고 소중한 자리로 준비되었습니다.</span></div>
-      <br />
-      <div class="custom-text"><span>함께하지 못하시더라도</span></div>
-      <div class="custom-text"><span>축복의 마음을 보내주신다면</span></div>
-      <div class="custom-text"><span>그 마음을 깊이 간직하겠습니다.</span></div>
+      <div class="custom-text"><span>소중한 분들의 따뜻한 축복에<</span></div>
+      <div class="custom-text"><span>진심으로 감사드립니다.</span></div>
       <br />
       <div class="custom-text"><span>늘 보내주신 관심과 사랑에</span></div>
-      <div class="custom-text"><span>진심으로 감사드리며,</span></div>
+      <div class="custom-text"><span>깊이 감사드리며,</span></div>
       <br />
       <div class="custom-text"><span>서로를 아끼며 행복하게</span></div>
       <div class="custom-text"><span>살아가겠습니다.</span></div>
@@ -171,7 +207,7 @@
         <div class="gallery-thumbnail">
           <img class="custom-picture" src="picture/m03.png" alt="갤러리 이미지 3" />
         </div>
-	    <div class="custom-textb"><span>(우리 사진, 애니메이션 감성으로 담아봤어요.)</span></div>
+        <div class="custom-textb"><span>(우리 사진, 애니메이션 감성으로 담아봤어요.)</span></div>
       </div>
       <!-- 이미지 표시용 모달 -->
       <div class="modal-overlay" id="imageModalOverlay">
@@ -186,6 +222,9 @@
     </section>
 
     <section>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.6rem + 0.3vw); font-size: calc(1.4rem + 0.7vw); font-weight: 700;">
+        <span>🤵👰ABOUT US</span>
+      </div>
       <div class="simple_line"></div>
       <div class="who-section"><span class="highlight">김태일 ‧ 안숙자</span>의 장남 <span class="highlight">김한영</span></div>
       <div class="who-section"><span class="highlight">한혜빈 ‧ 한혜빈</span>의 장녀 <span class="highlight">한혜빈</span></div>
@@ -270,17 +309,17 @@
       </script>
     </section>
     <section>
-      <div class="custom-textb" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); font-weight: 700;"><span>WEDDING DATE</span></div>
-      <div class="custom-textb" style="font-size: calc(0.7rem + 0.4vw); font-weight: 700;"><span>작은 결혼식으로 준비되어, 초대 인원이 한정되어 있습니다.</span></div>
-      <div class="custom-textb" style="font-size: calc(0.7rem + 0.4vw); font-weight: 700;"><span>너른 마음으로 양해 부탁드립니다.</span></div>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw); font-weight: 700;"><span>🗓️WEDDING DATE</span></div>
+      <div class="custom-textb" style="font-size: calc(0.6rem + 0.3vw); font-weight: 700;"><span>작은 결혼식으로 준비되어, 초대 인원이 한정되어 있습니다.</span></div>
+      <div class="custom-textb" style="font-size: calc(0.6rem + 0.3vw); font-weight: 700;"><span>너른 마음으로 양해 부탁드립니다.</span></div>
       <div class="custom-textb" style="font-size: calc(1.1rem + 0.6vw);"><span>2025년 6월 14일 토요일 12시</span></div>
       <div class="simple_line"></div>
       <div><img class="custom-picture0" src="picture/cal.png" /></div>
       <div class="simple_line"></div>
     </section>
     <section id="gallery-slider">
-      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.5rem + 0.2435vw); font-size: calc(2.5rem + 1.5vw); font-weight: 700;">
-        <span>Gallery</span>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(1rem + 0.5vw); font-size: calc(1.4rem + 0.7vw); font-weight: 700;">
+        <span>📷GALLERY</span>
       </div>
       <div class="gallery-container">
         <div class="gallery-wrapper">
@@ -306,9 +345,16 @@
       </div>
     </section>
     <section>
-      <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.2rem + 0.7vw); font-family: Arial, sans-serif; font-weight: 700;"><span>🎉 축하 메시지</span></div>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.8rem + 0.4vw); font-size: calc(1.4rem + 0.7vw); font-weight: 700;">
+        <span>🎉축하 메시지</span>
+      </div>
       <div class="custom-textb"><span> 신랑, 신부에게 축하의 글을 남겨보세요 </span></div>
-      <div class="custom-textb" style="color: #ced4da; font-size: calc(0.8rem + 0.6vw);"><span> (다른 사람은 볼수 없으며, <br> 신랑 신부만 확인이 가능합니다)</span></div>
+      <div class="custom-textb" style="color: #ced4da; font-size: calc(0.8rem + 0.6vw);">
+        <span>
+          (다른 사람은 볼수 없으며, <br />
+          신랑 신부만 확인이 가능합니다)
+        </span>
+      </div>
       <form onsubmit="submitData(event)">
         <input type="text" id="name" placeholder="이름을 입력하세요" required />
         <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
@@ -323,7 +369,9 @@
     </div>
 
     <section>
-      <div class="custom-text" style="color: #a7c1ba; font-size: calc(1rem + 0.5vw); font-family: Arial, sans-serif; font-weight: 700;"><span>💝 마음을 전하시고, 따뜻함을 나누는 곳</span></div>
+      <div class="custom-text" style="color: #a7c1ba; font-size: calc(1rem + 0.5vw); font-weight: 700;">
+        <span>💝 마음을 전하시고, 따뜻함을 나누는 곳</span>
+      </div>
       <div class="accordion">
         <button onclick="toggleAccordion(this)">신랑측 계좌번호 확인하기</button>
         <div class="accordion-content">
@@ -347,8 +395,14 @@
               <input value="농협은행 817-0217-4831" readonly />
               <button class="button" onclick="copyToClipboard('농협은행 817-0217-4831')">복사하기</button>
             </div>
-          </div>		  
-          <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.1rem + 0.5vw); font-family: Arial, sans-serif; margin-top: 30px;">🎁 <span>축의금을 전해주신 분들께 작은 답례의 마음을 전하고자 합니다.</span></div>
+          </div>
+          <div class="custom-text" style="color: #a7c1ba; font-size: calc(0.9rem + 0.45vw); font-family: Arial, sans-serif; margin-top: 30px;">
+            🎁
+            <span>
+              축의금을 전해주신 분들께<br />
+              작은 답례의 마음을 전하고자 합니다.
+            </span>
+          </div>
           <div class="gift-form-link" style="margin-top: 15px;">
             <a
               href="https://forms.gle/gfTRF2AJoxXSWkdn8"
@@ -370,7 +424,13 @@
               <button class="button" onclick="copyToClipboard('유후은행 123-456789-01')">복사하기</button>
             </div>
           </div>
-          <div class="custom-text" style="color: #a7c1ba; font-size: calc(1.1rem + 0.5vw); font-family: Arial, sans-serif; margin-top: 30px;">🎁 <span>축의금을 전해주신 분들께 작은 답례의 마음을 전하고자 합니다.</span></div>
+          <div class="custom-text" style="color: #a7c1ba; font-size: calc(0.9rem + 0.45vw); font-family: Arial, sans-serif; margin-top: 30px;">
+            🎁
+            <span>
+              축의금을 전해주신 분들께<br />
+              작은 답례의 마음을 전하고자 합니다.
+            </span>
+          </div>
           <div class="gift-form-link" style="margin-top: 15px;">
             <a
               href="https://forms.gle/gfTRF2AJoxXSWkdn8"
@@ -470,10 +530,17 @@
       <center>
         <div class="share-container">
           <h2>청첩장 공유하기</h2>
-          <p>소중한 분들께 저희의 결혼 소식을 전해주세요.</p>
+          <div style="font-size: calc(0.8rem + 0.4vw);">소중한 분들께 저희의 결혼 소식을 전해주세요.</div>
+          <br />
           <div class="share-buttons">
-            <button class="btn btn-copy" onclick="copyLink()" style="font-size: calc(0.8rem + 0.4vw);" ;>URL<br>복사하기</button>
-            <button class="btn btn-kakao" onclick="shareKakao()" style="font-size: calc(0.8rem + 0.4vw);" ;>카카오톡<br>공유하기</button>
+            <button class="btn btn-copy" onclick="copyLink()" style="font-size: calc(0.8rem + 0.4vw);" ;>
+              URL<br />
+              복사하기
+            </button>
+            <button class="btn btn-kakao" onclick="shareKakao()" style="font-size: calc(0.8rem + 0.4vw);" ;>
+              카카오톡<br />
+              공유하기
+            </button>
           </div>
         </div>
       </center>
