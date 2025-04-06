@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "S-CoreDream-4Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-4Regular.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
 html,
 body {
   overflow-x: hidden; /* 가로 스크롤 숨기기 */
@@ -8,7 +15,8 @@ body {
 }
 
 body {
-  font-family: "Gothic A1", sans-serif;
+  font-family: "S-CoreDream-4Regular";
+  font-style: normal;
   margin: 0;
   padding: 0;
   background-color: #fff;
@@ -285,7 +293,6 @@ footer {
   text-shadow: 0px 0px 5px white, 0px 0px 10px white;
 }
 .name-block .name.korean {
-  font-family: "Gothic A1", sans-serif;
   font-size: calc(1.2rem + 0.7vw);
   color: black;
   text-shadow: 0px 0px 5px white, 0px 0px 10px white;
@@ -303,9 +310,7 @@ footer {
   bottom: 10%;
   left: 50%;
   transform: translateX(-50%);
-  font-family: "Gothic A1", sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: calc(1rem + 0.5vw);
   color: #34695d;
   white-space: nowrap;
@@ -326,9 +331,7 @@ footer {
   bottom: 7%;
   left: 50%;
   transform: translateX(-50%);
-  font-family: "Gothic A1", sans-serif;
   font-weight: 400;
-  font-style: normal;
   font-size: calc(1rem + 0.5vw);
   color: #34695d;
   white-space: nowrap;
@@ -397,10 +400,8 @@ footer {
   max-width: 90%;
   padding: 2px;
   text-align: center;
-  font-family: "Gothic A1", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
-  font-style: normal;
   font-size: calc(0.8rem + 0.5vw);
   color: #333;
   background-color: white;
@@ -537,7 +538,6 @@ section {
 }
 .who-section {
   text-align: center;
-  font-family: "Noto Serif KR", serif;
   #margin-right: var(--right-margin, 20%);
   letter-spacing: 0.3em; /* 글자 간 간격 증가 */
   opacity: 0;
@@ -824,22 +824,22 @@ section {
 }
 
 /* 기존 .audio-control 스타일 유지 또는 일부 수정 */
-.audio-control {
-  /* 기존 스타일 유지 */
+/*.audio-control {
   display: inline-block;
   width: 35px;
   height: 35px;
   background: #e0e5ec;
   border-radius: 50%;
-  box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff; /* 그림자 약간 조정 */
+  box-shadow: 5px 5px 10px #a3b1c6, -5px -5px 10px #ffffff;
   text-align: center;
-  line-height: 35px; /* 아이콘 수직 중앙 정렬 */
-  font-size: 16px; /* 아이콘 크기 */
+  line-height: 35px; 
+  font-size: 16px;
   cursor: pointer;
   transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s, color 0.3s;
-  user-select: none; /* 아이콘 선택 방지 */
-  /* position, top, right 등은 부모 컨테이너가 처리하므로 여기서는 제거 */
+  user-select: none;
+  
 }
+*/
 
 .audio-control:active {
   /* 기존 active 스타일 유지 */
@@ -980,7 +980,6 @@ section {
   font-size: 1.2em; /* 폰트 크기 조정 */
   line-height: 1.6;
   margin-bottom: 30px; /* 스크롤 표시와의 간격 증가 */
-  font-family: "Gothic A1", sans-serif; /* 기존 폰트 적용 */
 }
 
 /* 👇 삭제: .overlay-content .touch-icon {...} */
