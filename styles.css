@@ -422,6 +422,31 @@ footer {
   opacity: 1;
   transform: translateY(0);
 }
+.custom-textc {
+  line-height: 1.5;
+  position: relative;
+  margin: 2px auto;
+  max-width: 90%;
+  padding: 2px;
+  text-align: center;
+  font-optical-sizing: auto;
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-size: calc(0.8rem + 0.5vw);
+  color: #333;
+  background-color: white;
+  z-index: 0;
+}
+.custom-textc span {
+  display: block;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+}
+.custom-textc span.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .custom-textb {
   line-height: 1.5;
   position: relative;
@@ -868,7 +893,7 @@ section {
 
 .share-container {
   background: #fff;
-  padding: 30px;
+  padding: 10px;
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -882,11 +907,13 @@ section {
   color: #555;
 }
 .share-buttons {
+  font-family: "S-CoreDream-4Regular";
   display: flex;
   justify-content: center;
   gap: 20px;
 }
 .btn {
+  font-family: "S-CoreDream-4Regular";
   border: none;
   border-radius: 30px;
   padding: 12px 24px;
@@ -902,6 +929,7 @@ section {
   color: #333;
 }
 .btn-kakao {
+  font-family: "S-CoreDream-4Regular";
   background-color: #f7e600;
   color: #3c1e1e;
 }
