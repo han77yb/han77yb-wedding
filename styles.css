@@ -311,7 +311,7 @@ footer {
   left: 50%;
   transform: translateX(-50%);
   font-weight: 400;
-  font-size: calc(1rem + 0.5vw);
+  font-size: calc(0.8rem + 0.4vw);
   color: #34695d;
   white-space: nowrap;
   /* 개행을 막기 위해 nowrap 설정 */
@@ -328,11 +328,11 @@ footer {
 }
 .place-text {
   position: absolute;
-  bottom: 7%;
+  bottom: 5%;
   left: 50%;
   transform: translateX(-50%);
   font-weight: 400;
-  font-size: calc(1rem + 0.5vw);
+  font-size: calc(0.8rem + 0.4vw);
   color: #34695d;
   white-space: nowrap;
   /* 개행을 막기 위해 nowrap 설정 */
