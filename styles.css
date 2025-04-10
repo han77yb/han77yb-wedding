@@ -142,6 +142,7 @@ form.visible,
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
 .accordion button {
+  font-family: "S-CoreDream-4Regular";
   width: 100%;
   padding: 15px;
   font-size: 1em;
@@ -172,6 +173,7 @@ form.visible,
 }
 /* 계좌번호 및 복사 버튼 스타일 */
 .account-item {
+  font-family: "S-CoreDream-4Regular";
   margin: 10px 0;
   display: block;
   align-items: center;
@@ -179,6 +181,7 @@ form.visible,
   #margin-bottom: 10px;
 }
 .account-info {
+  font-family: "S-CoreDream-4Regular";
   gap: 300px;
   margin-top: 10px;
   #width: 300px;
@@ -187,11 +190,13 @@ form.visible,
   display: flex;
 }
 .account-info input {
+  font-family: "S-CoreDream-4Regular";
   width: 100%;
   border-radius: 15px;
-  font-size: 1em;
+  font-size: 0.8em;
 }
 .account-info button {
+  font-family: "S-CoreDream-4Regular";
   width: 25%;
   position: absolute;
   top: 10%;
@@ -250,7 +255,7 @@ footer {
   position: absolute;
   width: 100%;
   height: auto;
-  top: 50%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
@@ -307,7 +312,7 @@ footer {
 }
 .date-text {
   position: absolute;
-  bottom: 10%;
+  bottom: 13%;
   left: 50%;
   transform: translateX(-50%);
   font-weight: 400;
@@ -328,7 +333,7 @@ footer {
 }
 .place-text {
   position: absolute;
-  bottom: 5%;
+  bottom: 8%;
   left: 50%;
   transform: translateX(-50%);
   font-weight: 400;
@@ -541,12 +546,13 @@ section {
   #margin-right: var(--right-margin, 20%);
   letter-spacing: 0.3em; /* 글자 간 간격 증가 */
   opacity: 0;
+  font-size: 0.7rem;
   transform: translateY(20px);
   transition: opacity 1.5s ease, transform 1.5s ease;
 }
 
 .who-section .highlight {
-  font-size: 1.3em; /* 기존 폰트보다 조금 더 크게 */
+  font-size: 1.2em; /* 기존 폰트보다 조금 더 크게 */
   font-weight: 700; /* 굵게 설정 */
   letter-spacing: 0.05em; /* 글자 간 간격 증가 */
   word-spacing: 0.2em; /* 단어 간 간격 증가 */
