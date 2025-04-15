@@ -36,67 +36,44 @@
     </div-->
 
     <!-- 오디오 요소는 그대로 둡니다 -->
-    <audio id="bgm" loop playsinline>
-      <source src="./bgm/Infraction-Music-Part-of-Life-pr.mp3" type="audio/mpeg" />
-    </audio>
+  <audio id="bgm" src="./bgm/Infraction-Music-Part-of-Life-pr.mp3"></audio>
+    <img id="controlButton" src="./picture/stop.png" alt="음악 컨트롤 버튼">
+
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const overlay = document.getElementById("autoplay-overlay");
-        const audio = document.getElementById("bgm");
-        const audioControl = document.getElementById("audioControl"); // 버튼 요소 가져오기
-        let interactionDone = false; // 오버레이 인터랙션 완료 플래그
+    const bgm = document.getElementById("bgm");
+    const controlButton = document.getElementById("controlButton");
+    let musicStarted = false;
 
-        // --- 오버레이 클릭/터치 처리 ---
-        function startMusicAndReveal() {
-          if (interactionDone) return; // 이미 처리되었으면 중복 실행 방지
-          interactionDone = true;
-
-          // 오디오 재생 시도
-          audio.muted = false; // 음소거 해제 (중요)
-          const playPromise = audio.play();
-
-          if (playPromise !== undefined) {
-            playPromise
-              .then(() => {
-                // 재생 성공
-                console.log("BGM 재생 시작 (Overlay Interaction)");
-                // audioControl.style.display = 'none'; // 이 줄 대신에 아래 코드로 변경
-                audioControl.remove(); // *** 요소를 DOM에서 완전히 제거합니다 ***
-                overlay.classList.add("hidden");
-              })
-              .catch((error) => {
-                // 재생 실패
-                console.error("BGM 재생 실패 (Overlay Interaction):", error);
-                // 실패 시에도 버튼을 제거할지 결정해야 합니다. 여기서는 제거하지 않습니다.
-                // 필요하다면 여기서도 audioControl.remove(); 를 호출할 수 있습니다.
-                overlay.classList.add("hidden");
-                // alert("배경 음악 재생에 실패했습니다.");
-              });
-          } else {
-            // play()가 Promise를 반환하지 않는 오래된 브라우저 fallback
-            // audioControl.style.display = 'none'; // 이 줄 대신에 아래 코드로 변경
-            audioControl.remove(); // *** 요소를 DOM에서 완전히 제거합니다 ***
-            overlay.classList.add("hidden");
-          }
-        }
-
-        // 오버레이에 이벤트 리스너 추가
-        overlay.addEventListener("click", startMusicAndReveal);
-        overlay.addEventListener("touchstart", startMusicAndReveal);
-
-        // --- 버튼 로직 및 아이콘 업데이트 관련 코드는 이미 제거되었으므로 그대로 둡니다 ---
-
-        // 페이지가 백그라운드로 가거나 할 때 오디오 정지 (유지)
-        document.addEventListener("visibilitychange", () => {
-          // audioControl 요소가 제거된 후에는 이 리스너에서 audioControl을 참조하면 안 됩니다.
-          // 다행히 현재 코드는 audioControl을 참조하지 않으므로 괜찮습니다.
-          if (document.hidden && !audio.paused && interactionDone) {
-            audio.pause();
-            console.log("Page hidden, BGM paused.");
-          }
+    // 스크롤 이벤트로 음악 재생 (한 번만 실행되도록)
+    function startMusic() {
+      if (!musicStarted) {
+        // 스크롤이 사용자 인터랙션으로 판단되어 재생 시작
+        bgm.play().catch(error => {
+          console.error("음악 재생 실패:", error);
         });
-      });
+        controlButton.style.display = "block";
+        musicStarted = true;
+        // 더 이상 스크롤 이벤트를 감지하지 않도록 제거
+        window.removeEventListener("scroll", startMusic);
+      }
+    }
+    window.addEventListener("scroll", startMusic);
+
+    // 재생/일시정지 버튼 클릭 이벤트
+    controlButton.addEventListener("click", function() {
+      if (!bgm.paused) {
+        // 음악이 재생 중이면 일시정지
+        bgm.pause();
+        controlButton.src = "./picture/play.png";
+      } else {
+        // 음악이 일시정지 상태이면 재생
+        bgm.play().catch(error => {
+          console.error("음악 재생 실패:", error);
+        });
+        controlButton.src = "./picture/stop.png";
+      }
+    });
     </script>
 
     <div class="fullscreen-image">
@@ -370,6 +347,13 @@
               <button class="button" onclick="copyToClipboard('새마을 9003-2050-7543-1')">복사하기</button>
             </div>
           </div>
+          <div class="account-item">
+            <label>예금주: 천부순</label>
+            <div class="account-info">
+              <input value="ㅤ농협 351-0446-065733" readonly />
+              <button class="button" onclick="copyToClipboard('농협 351-0446-065733')">복사하기</button>
+            </div>
+          </div>		  
           <div class="custom-text" style="color: #a7c1ba; font-size: calc(0.9rem + 0.45vw); font-family: Arial, sans-serif; margin-top: 30px;">
             🎁
             <span>

@@ -1077,3 +1077,17 @@ section {
 #audioControl::before {
   /* content: "▶️"; */ /* JS에서 직접 텍스트를 바꾸므로 여기선 불필요 */
 }
+
+
+    #controlButton {
+      position: fixed;
+      top: 0.1em;
+      right: 0.1em;
+	      width: 3em;  /* 픽셀 단위 또는 다른 단위를 사용할 수 있음 */
+    height: 3em;
+
+      z-index: 1000;
+      cursor: pointer;
+      /* 초기에 버튼은 숨김 처리 */
+      
+    }
