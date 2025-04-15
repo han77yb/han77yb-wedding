@@ -7,9 +7,9 @@
     <title>한영💖혜빈의 모바일 청첩장</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Great+Vibes&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Stylish&display=swap" rel="stylesheet" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <script src="script.js" defer></script>
     <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -36,44 +36,43 @@
     </div-->
 
     <!-- 오디오 요소는 그대로 둡니다 -->
-  <audio id="bgm" src="./bgm/Infraction-Music-Part-of-Life-pr.mp3"></audio>
-    <img id="controlButton" src="./picture/stop.png" alt="음악 컨트롤 버튼">
-
+    <audio id="bgm" src="./bgm/Infraction-Music-Part-of-Life-pr.mp3"></audio>
+    <img id="controlButton" src="./picture/stop.png" alt="음악 컨트롤 버튼" />
 
     <script>
-    const bgm = document.getElementById("bgm");
-    const controlButton = document.getElementById("controlButton");
-    let musicStarted = false;
+      const bgm = document.getElementById("bgm");
+      const controlButton = document.getElementById("controlButton");
+      let musicStarted = false;
 
-    // 스크롤 이벤트로 음악 재생 (한 번만 실행되도록)
-    function startMusic() {
-      if (!musicStarted) {
-        // 스크롤이 사용자 인터랙션으로 판단되어 재생 시작
-        bgm.play().catch(error => {
-          console.error("음악 재생 실패:", error);
-        });
-        controlButton.style.display = "block";
-        musicStarted = true;
-        // 더 이상 스크롤 이벤트를 감지하지 않도록 제거
-        window.removeEventListener("scroll", startMusic);
+      // 스크롤 이벤트로 음악 재생 (한 번만 실행되도록)
+      function startMusic() {
+        if (!musicStarted) {
+          // 스크롤이 사용자 인터랙션으로 판단되어 재생 시작
+          bgm.play().catch((error) => {
+            console.error("음악 재생 실패:", error);
+          });
+          controlButton.style.display = "block";
+          musicStarted = true;
+          // 더 이상 스크롤 이벤트를 감지하지 않도록 제거
+          window.removeEventListener("scroll", startMusic);
+        }
       }
-    }
-    window.addEventListener("scroll", startMusic);
+      window.addEventListener("scroll", startMusic);
 
-    // 재생/일시정지 버튼 클릭 이벤트
-    controlButton.addEventListener("click", function() {
-      if (!bgm.paused) {
-        // 음악이 재생 중이면 일시정지
-        bgm.pause();
-        controlButton.src = "./picture/play.png";
-      } else {
-        // 음악이 일시정지 상태이면 재생
-        bgm.play().catch(error => {
-          console.error("음악 재생 실패:", error);
-        });
-        controlButton.src = "./picture/stop.png";
-      }
-    });
+      // 재생/일시정지 버튼 클릭 이벤트
+      controlButton.addEventListener("click", function () {
+        if (!bgm.paused) {
+          // 음악이 재생 중이면 일시정지
+          bgm.pause();
+          controlButton.src = "./picture/play.png";
+        } else {
+          // 음악이 일시정지 상태이면 재생
+          bgm.play().catch((error) => {
+            console.error("음악 재생 실패:", error);
+          });
+          controlButton.src = "./picture/stop.png";
+        }
+      });
     </script>
 
     <div class="fullscreen-image">
@@ -99,29 +98,35 @@
       <!--div class="custom-text" style="margin-bottom: 0; color: #8378d1;"><span>To me, you are perfect</span></div-->
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0;"><span>내게 당신은 완벽한 사람이에요</span></div>
       <br />
-      <div class="custom-text"><span>서로를 만난 순간부터</span></div>
-      <div class="custom-text"><span>우리는 삶의 이유가 되어주었습니다</span></div>
+      <div class="custom-text"><span>우연처럼 다가와</span></div>
+      <div class="custom-text"><span>어느덧 삶의 가장 큰 이유가 된 사람</span></div>
       <br />
-      <div class="custom-text"><span>그대를 향한 나의 사랑은</span></div>
+      <div class="custom-text"><span>그대를 향한 마음은</span></div>
       <div class="custom-text"><span>어제보다 오늘 더 깊어지고</span></div>
-      <div class="custom-text"><span>내일은 더 아름다워질 것입니다</span></div>
+      <br />
+      <div class="custom-text"><span>함께할 내일 속에서 </span></div>
+      <div class="custom-text"><span>더욱 아름답게 피어날 것입니다.</span></div>
+      <br />
+      <div class="custom-text"><span>서로에게 가장 완벽한 선물인 우리,</span></div>
+      <div class="custom-text"><span>그 소중한 시작을 함께 축복해 주세요.</span></div>
     </section>
     <section>
       <!--div><img class="custom-picture0" src="picture/flower2.png" style="max-width: calc(3rem + 1.5vw);" /></div-->
       <!--div class="custom-text" style="margin-bottom: 0px; color: #cb8c8c;"><span>Bless our journey together</span></div-->
       <div class="custom-text" style="font-size: calc(1rem + 0.7vw); font-weight: bold; margin-top: 0px;"><span>저희의 약속을 축복해 주세요</span></div>
       <br />
-      <div class="custom-text"><span>저희 두 사람이 사랑과 신뢰로</span></div>
-      <div class="custom-text"><span>새로운 여정을 시작합니다.</span></div>
+      <div class="custom-text"><span>따스한 사랑 안에서 저희 두 사람,</span></div>
+      <div class="custom-text"><span>이제 서로의 가장 소중한 벗이 되어</span></div>
+      <div class="custom-text"><span>아름다운 동행을 시작하려 합니다.</span></div>
       <br />
-      <div class="custom-text"><span>소중한 분들의 따뜻한 축복에</span></div>
-      <div class="custom-text"><span>진심으로 감사드립니다.</span></div>
+      <div class="custom-text"><span>언제나 곁에서 아껴주시고 응원해주신</span></div>
+      <div class="custom-text"><span>모든 분들의 마음에 진심으로 감사드립니다.</span></div>
       <br />
-      <div class="custom-text"><span>늘 보내주신 관심과 사랑에</span></div>
-      <div class="custom-text"><span>깊이 감사드리며,</span></div>
+      <div class="custom-text"><span>그 사랑과 축복을 가슴에 새기고</span></div>
+      <div class="custom-text"><span>서로 아끼며 예쁜 가정을 이루겠습니다.</span></div>
       <br />
-      <div class="custom-text"><span>서로를 아끼며 행복하게</span></div>
-      <div class="custom-text"><span>살아가겠습니다.</span></div>
+      <div class="custom-text"><span>앞으로 저희가 만들어갈 행복한 날들을</span></div>
+      <div class="custom-text"><span>따뜻한 시선으로 지켜봐 주세요.</span></div>
       <!--div class="image-gallery-container">
         <div class="gallery-thumbnail">
           <img class="custom-picture" src="picture/m01.png" alt="갤러리 이미지 1" />
@@ -147,9 +152,25 @@
         <span>🤵👰ABOUT US</span>
       </div-->
       <div class="simple_line"></div>
-      <div class="who-section"><span class="highlight">김태일 ‧ 안숙자</span>의 아들 <span class="highlight">김한영</span></div>
-      <br>
-      <div class="who-section"><span class="highlight">한수덕 ‧ 천부순</span>의 딸ㅤ <span class="highlight">한혜빈</span></div>
+      <div class="who-section">
+        <div class="row">
+          <span class="parent highlight">김태일 ‧ 안숙자</span>
+          <span class="separator">의</span>
+          <span class="childType">아들</span>
+          <span class="child highlight">김한영</span>
+        </div>
+      </div>
+      <br />
+      <div class="who-section">
+        <div class="row">
+          <span class="parent highlight">한수덕 ‧ 천부순</span>
+          <span class="separator">의</span>
+          <span class="childType">딸</span>
+          <span class="child highlight">한혜빈</span>
+        </div>
+      </div>
+
+	  
       <div class="simple_line"></div>
       <div id="main-content">
         <button class="contact-button" id="openModalButton">연락하기</button>
@@ -231,10 +252,13 @@
       </script>
     </section>
     <section>
-      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw);font-weight: 400; "><span>일정</span></div><br>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw); font-weight: 400;"><span>일정</span></div>
+      <br />
       <div class="custom-textb" style="font-size: calc(0.6rem + 0.3vw); font-weight: 700;"><span>작은 결혼식으로 준비되어, 초대 인원이 한정되어 있습니다.</span></div>
-      <div class="custom-textb" style="font-size: calc(0.6rem + 0.3vw); font-weight: 700;"><span>너른 마음으로 양해 부탁드립니다.</span></div><br><br>
-      <div><img class="custom-picture0" src="picture/caldate.png" width=150/></div>
+      <div class="custom-textb" style="font-size: calc(0.6rem + 0.3vw); font-weight: 700;"><span>너른 마음으로 양해 부탁드립니다.</span></div>
+      <br />
+      <br />
+      <div><img class="custom-picture0" src="picture/caldate.png" width="150" /></div>
       <div class="simple_line"></div>
       <div><img class="custom-picture0" src="picture/cal.png" /></div>
       <div class="simple_line"></div>
@@ -267,20 +291,19 @@
       </div>
     </section>
     <section>
-      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw); font-weight: 700;">
-        <span>축하 메시지</span><br>
-      </div>
-      <div class="custom-textb"><span> 신랑, 신부에게 축하의 글을 남겨보세요</span></div><br>
+      <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw); font-weight: 700;"><span>축하 메시지</span><br /></div>
+      <div class="custom-textb"><span> 신랑, 신부에게 축하의 글을 남겨보세요</span></div>
+      <br />
       <div class="custom-textb" style="color: #ced4da; font-size: calc(0.8rem + 0.6vw);">
         <span>
           (다른 사람은 볼수 없으며, <br />
           신랑 신부만 확인이 가능합니다)
-        </span><br>
+        </span>
+        <br />
       </div>
-      <!-- 폰트 바꾸기 -->
       <form onsubmit="submitData(event)">
-        <input type="text" id="name" placeholder="이름을 입력하세요" required />
-        <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required></textarea>
+        <input type="text" id="name" placeholder="이름을 입력하세요" required style="font-family: 'S-CoreDream-4Regular';" />
+        <textarea id="value" rows="4" placeholder="축하 메시지를 입력하세요" required style="font-family: 'S-CoreDream-4Regular';"></textarea>
         <button type="submit">작성</button>
       </form>
     </section>
@@ -293,7 +316,10 @@
 
     <section>
       <div class="custom-text" style="color: #a7c1ba; letter-spacing: calc(0.4rem + 0.2vw); font-size: calc(1.2rem + 0.6vw); font-weight: 700;">
-        <br><br><br><span>마음을 전하실 곳</span>
+        <br />
+        <br />
+        <br />
+        <span>마음을 전하실 곳</span>
       </div>
       <div class="accordion">
         <button onclick="toggleAccordion(this)">신랑측 계좌번호 확인하기</button>
@@ -353,7 +379,7 @@
               <input value="ㅤ농협 351-0446-065733" readonly />
               <button class="button" onclick="copyToClipboard('농협 351-0446-065733')">복사하기</button>
             </div>
-          </div>		  
+          </div>
           <div class="custom-text" style="color: #a7c1ba; font-size: calc(0.9rem + 0.45vw); font-family: Arial, sans-serif; margin-top: 30px;">
             🎁
             <span>
@@ -373,7 +399,11 @@
         </div>
       </div>
     </section>
-    <br><br><br><br><br>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
     <script>
       // Kakao SDK 초기화 (받은 JavaScript 키 사용)
       Kakao.init("1fac1894516271fa3219bb9e0c27f72b");
@@ -460,8 +490,9 @@
     <footer>
       <center>
         <div class="share-container">
-          <div style="font-size: calc(1.0rem + 0.5vw);">청첩장 공유하기</div>
-          <br><div style="font-size: calc(0.75rem + 0.35vw);">소중한 분들께 저희의 결혼 소식을 전해주세요</div>
+          <div style="font-size: calc(1rem + 0.5vw);">청첩장 공유하기</div>
+          <br />
+          <div style="font-size: calc(0.75rem + 0.35vw);">소중한 분들께 저희의 결혼 소식을 전해주세요</div>
           <br />
           <div class="share-buttons">
             <button class="btn btn-copy" onclick="copyLink()" style="font-size: calc(0.7rem + 0.35vw);" ;>

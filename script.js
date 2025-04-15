@@ -93,8 +93,8 @@ for (let i = 0; i < numElements; i++) {
   const startX = Math.random() * 100; // Start X position (vw)
   const offsetX = (Math.random() - 0.5) * 50; // Random X offset for end
   const startY = Math.random() * -50; // Random Y start position above the screen (-20% to 0%)
-  const duration = Math.random() * 10 + 5; // Duration between 5s to 15s
-  const opacity = Math.random() * 0.2; // Opacity between 0.0 and 0.2
+  const duration = Math.random() * 20 + 10; // Duration between 5s to 15s
+  const opacity = Math.random() * 0.4; // Opacity between 0.0 and 0.2
   const scale = Math.random() * 0.5 + 0.5; // Scale between 0.5 and 1
   const rotation = Math.random() * 360 + "deg"; // Random initial rotation
 
